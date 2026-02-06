@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@keyframes authorScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-author-scroll {
+  animation: authorScroll 25s linear infinite;
+}
+
+@keyframes reviewScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-review-scroll {
+  animation: reviewScroll 28s linear infinite;
+}
+
+/* AUTHOR SCROLL */
+@keyframes authorScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-author-scroll {
+  animation: authorScroll 25s linear infinite;
+}
+
+/* REVIEW / NEWS SCROLL */
+@keyframes reviewScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-review-scroll {
+  animation: reviewScroll 28s linear infinite;
+}
+.animate-author-scroll:hover,
+.animate-review-scroll:hover {
+  animation-play-state: paused;
+}
+@keyframes posterScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-posterScroll {
+  animation: posterScroll 20s linear infinite;
+}
+
+/* NEWS SCROLL */
+@keyframes reviewScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-review-scroll {
+  animation: reviewScroll 25s linear infinite;
+}
