@@ -1,23 +1,15 @@
 import { SignIn } from "@clerk/clerk-react";
 
-const AdminLogin = () => {
+export default function AdminLogin() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md">
-        <SignIn
-          routing="path"
-          path="/adminlogin"
-          signUpUrl="/adminlogin"
-          appearance={{
-            elements: {
-              card: "shadow-xl rounded-xl",
-              formButtonPrimary: "bg-blue-600 hover:bg-blue-700 text-white",
-            },
-          }}
-        />
-      </div>
+    <div className="flex justify-center items-center h-screen">
+      <SignIn
+        routing="path"
+        path="/adminlogin"
+        signUpUrl="/register"
+        afterSignInUrl="/adminBooks"
+        redirectUrl="/adminBooks"
+      />
     </div>
   );
-};
-
-export default AdminLogin;
+}

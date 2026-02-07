@@ -77,7 +77,10 @@ const Root = createBrowserRouter([
 ]);
 
 createRoot(document.querySelector("#root")).render(
-  <ClerkProvider publishableKey={clerkPubKey}>
-    <RouterProvider router={Root} />
-  </ClerkProvider>,
+  <StrictMode>
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <RouterProvider router={Root} />
+    </ClerkProvider>
+    ,
+  </StrictMode>,
 );
