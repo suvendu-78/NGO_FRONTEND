@@ -2,19 +2,33 @@ import { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import bgthim from "../../assets/bgthim.png";
-
+import axios from "axios";
 const Login = () => {
   const EmailR = useRef();
   const PasswordR = useRef();
   const [showPassword, setShowPassword] = useState(false);
-  const Handller = (e) => {
+  const Handller = async (e) => {
     e.preventDefault();
 
     const Info = {
       Email: EmailR.current.value.trim(),
       Password: PasswordR.current.value.trim(),
     };
-    console.log(Info);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8000/api/v1/user/login",
+        Info,
+        { withCredentials: true },
+      );
+
+      console.log("Login Success:", data);
+
+      localStorage.setItem("token", data.data.accessToken);
+    } catch (error) {
+      console.log(error.response?.data?.message);
+
+      alert(error.response?.data?.message);
+    }
   };
 
   return (
