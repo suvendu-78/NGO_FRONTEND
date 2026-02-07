@@ -31,17 +31,6 @@ const Register = () => {
     };
 
     console.log(Info.Mobile);
-    // Mobile Validation
-    // if (!/^[6-9]\d{9}$/.test(Info.Mobile)) {
-    //   return setError("Enter a valid 10-digit mobile number");
-    // }
-
-    // Password Validation
-    // if (!validatePassword(Info.Password)) {
-    //   return setError(
-    //     "Password must be at least 8 characters, include 1 capital & 1 special character"
-    //   );
-    // }
 
     try {
       setLoading(true);

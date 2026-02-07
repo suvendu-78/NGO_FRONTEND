@@ -16,6 +16,9 @@ import Register from "./AppLay/user/Register.jsx";
 import Login from "./AppLay/user/Login.jsx";
 import AdminLogin from "./AppLay/Admin/AdminLogin.jsx";
 import AdminBooks from "./AppLay/Admin/UploadBook.jsx";
+import { ClerkProvider } from "@clerk/clerk-react";
+
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const Root = createBrowserRouter([
   {
     path: "/",
@@ -74,7 +77,7 @@ const Root = createBrowserRouter([
 ]);
 
 createRoot(document.querySelector("#root")).render(
-  <StrictMode>
+  <ClerkProvider publishableKey={clerkPubKey}>
     <RouterProvider router={Root} />
-  </StrictMode>,
+  </ClerkProvider>,
 );
