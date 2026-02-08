@@ -7,7 +7,7 @@ import AppLay from "./AppLay/AppLayOut.jsx";
 import Home from "./AppLay/home.jsx";
 import About from "./AppLay/About.jsx";
 import Authors from "./AppLay/Authore.jsx";
-import Books from "./AppLay/Bookes.jsx";
+// import Books from "./AppLay/Bookes.jsx";
 import FeedBack from "./AppLay/FeedBack.jsx";
 import Event from "./AppLay/Event.jsx";
 import Contact from "./AppLay/Contact.jsx";
@@ -16,7 +16,18 @@ import Register from "./AppLay/user/Register.jsx";
 import Login from "./AppLay/user/Login.jsx";
 import AdminLogin from "./AppLay/Admin/AdminLogin.jsx";
 import AdminBooks from "./AppLay/Admin/UploadBook.jsx";
+// import BookCheckout from "./AppLay/user/BookCheckout.jsx";
+// import CartCheckout from "./AppLay/user/CartCheckout.jsx";
+// import CartPage from "./AppLay/user/CartPage.jsx";
+// import BookReader from "./AppLay/user/BookReader.jsx";
+import UserDashboard from "./AppLay/user/UserDashboard.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
+import Books from "./AppLay/Books.jsx";
+import Payment from "./AppLay/Payment.jsx";
+import BooksPayment from "./AppLay/BooksPayment.jsx";
+import PaymentSuccess from "./AppLay/PaymentSuccess.jsx";
+
+import AdminOrders from "./AppLay/Admin/UploadBook.jsx"
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const Root = createBrowserRouter([
@@ -38,7 +49,7 @@ const Root = createBrowserRouter([
       },
       {
         path: "/books",
-        element: <Books />,
+        element: <Books/>,
       },
       {
         path: "/feedback",
@@ -65,13 +76,46 @@ const Root = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/adminlogin",
+        path: "/adminlogin/*",
         element: <AdminLogin />,
       },
       {
         path: "/adminBooks",
         element: <AdminBooks />,
       },
+      {
+        path: "/payment",
+        element: <Payment/>,
+      },
+       {
+        path: "/books-payment",
+        element: <BooksPayment/>,
+      },
+
+      {
+        path: "/success",
+        element: <PaymentSuccess/>,
+      },
+      // {
+      //   path: "/cart-checkout",
+      //   element: <CartCheckout />,
+      // },
+      // {
+      //   path: "/cart",
+      //   element: <CartPage />,
+      // },
+      // {
+      //   path: "/book-reader",
+      //   element: <BookReader />,
+      // },
+      {
+        path: "/user-dashboard",
+        element: <UserDashboard />,
+      },
+      {
+      path:"/adminOrders",
+      element:<AdminOrders/>
+      }
     ],
   },
 ]);

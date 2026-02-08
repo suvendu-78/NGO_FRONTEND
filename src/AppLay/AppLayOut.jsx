@@ -1,5 +1,6 @@
 import Head from "./Heared.jsx";
 import Foot from "./Footer.jsx";
+import Chatbot from "./Chatbot.jsx";
 import { Outlet } from "react-router-dom";
 
 const AppLay = () => {
@@ -8,6 +9,7 @@ const AppLay = () => {
       <Head />
       <Outlet />
       <Foot />
+      <Chatbot />
     </>
   );
 };

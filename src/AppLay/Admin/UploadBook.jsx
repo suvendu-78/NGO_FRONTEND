@@ -1,9 +1,26 @@
-import { useState } from "react";
-import { useRef } from "react";
+import { useState, useRef } from "react";
+import { useUser } from "@clerk/clerk-react";
+import { Navigate } from "react-router-dom";
+
+// 👑 PUT YOUR REAL ADMIN USER ID HERE
+const ADMIN_USER_ID = "user_39OGyBvhrLjcSeLbAWOkwcZzJ2C";
+
 const AdminBooks = () => {
+  const { user, isLoaded } = useUser();
+
+  // 🔐 ADMIN PROTECTION
+  if (!isLoaded) return null;
+
+  if (!user || user.id !== ADMIN_USER_ID) {
+    return <Navigate to="/" />;
+  }
+
+  // ================= YOUR ORIGINAL LOGIC =================
+
   const [preview, setPreview] = useState(null);
   const [book, setBook] = useState([]);
   const BookName = useRef();
+
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -14,15 +31,15 @@ const AdminBooks = () => {
   const Handller = (e) => {
     e.preventDefault();
     setBook([...book, BookName.current.value]);
-    // console.log(BookName.current.value);
   };
-  console.log(book);
+
   return (
     <div className="min-h-screen bg-[#f6e9dc] text-[#3b1f14]">
       <header className="bg-[#7a2e1f] text-white px-8 py-4 flex justify-between items-center shadow">
         <h1 className="text-xl font-bold">Odia Sahitya | Admin</h1>
         <span className="text-sm opacity-90">Admin Panel</span>
       </header>
+
       <form className="space-y-4" onSubmit={Handller}>
         <div className="p-8">
           <h2 className="text-3xl font-bold mb-6 text-[#5a1f14]">
@@ -30,8 +47,12 @@ const AdminBooks = () => {
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {/* ================= TABLE ================= */}
             <div className="bg-[#fffaf5] rounded-2xl shadow-lg p-6">
-              <button className="mb-6 bg-[#7a2e1f] text-white px-5 py-2 rounded-full hover:bg-[#5a1f14] transition">
+              <button
+                type="button"
+                className="mb-6 bg-[#7a2e1f] text-white px-5 py-2 rounded-full hover:bg-[#5a1f14] transition"
+              >
                 + Add New Book
               </button>
 
@@ -43,26 +64,32 @@ const AdminBooks = () => {
                     <th className="pb-3 text-center">Action</th>
                   </tr>
                 </thead>
-                {book.map((name, index) => (
-                  <tbody>
-                    <tr className="border-b">
+
+                <tbody>
+                  {book.map((name, index) => (
+                    <tr key={index} className="border-b">
                       <td className="py-3">{index + 1}</td>
                       <td className="py-3">{name}</td>
                       <td className="py-3 text-center">
-                        <button className="bg-[#d6a85a] text-[#5a1f14] px-4 py-1 rounded-full hover:opacity-90">
+                        <button
+                          type="button"
+                          className="bg-[#d6a85a] text-[#5a1f14] px-4 py-1 rounded-full hover:opacity-90"
+                        >
                           Show Details
                         </button>
                       </td>
                     </tr>
-                  </tbody>
-                ))}
+                  ))}
+                </tbody>
               </table>
             </div>
 
+            {/* ================= FORM ================= */}
             <div className="bg-[#fffaf5] rounded-2xl shadow-lg p-6">
               <h3 className="text-2xl font-bold mb-6 text-[#5a1f14]">
                 Add Book Admin
               </h3>
+
               <div>
                 <label className="block text-sm font-medium mb-1">Name</label>
                 <input
@@ -72,6 +99,7 @@ const AdminBooks = () => {
                   className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#d6a85a]"
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">Author</label>
                 <input
@@ -80,6 +108,7 @@ const AdminBooks = () => {
                   className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#d6a85a]"
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">Price</label>
                 <input
@@ -88,6 +117,7 @@ const AdminBooks = () => {
                   className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#d6a85a]"
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">
                   Type of Book
@@ -101,9 +131,9 @@ const AdminBooks = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1"></label>
                 <input type="file" onChange={handleImage} />
               </div>
+
               {preview && (
                 <div className="mt-3">
                   <img
@@ -113,6 +143,7 @@ const AdminBooks = () => {
                   />
                 </div>
               )}
+
               <button
                 type="submit"
                 className="mt-6 bg-[#7a2e1f] text-white px-6 py-2 rounded-full hover:bg-[#5a1f14] transition"

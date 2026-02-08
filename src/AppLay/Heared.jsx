@@ -80,6 +80,9 @@ const Head = () => {
               <NavLink to="/contact" className={menuItemClass}>
                 Contact
               </NavLink>
+              <NavLink to="/E_Book" className={menuItemClass}>
+                E_Books
+              </NavLink>
             </div>
           </div>
 
@@ -158,6 +161,13 @@ const Head = () => {
             className={menuItemClass}
           >
             Contact
+          </NavLink>
+           <NavLink
+            to="/e_book"
+            onClick={() => setOpen(false)}
+            className={menuItemClass}
+          >
+            E_Book
           </NavLink>
           <NavLink
             to="/register"

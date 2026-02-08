@@ -1,5 +1,89 @@
 @import "tailwindcss";
 
+/* Site theme variables and global background */
+ :root {
+  /* Updated brown theme matching the provided image */
+  --site-bg-from: #7a2c1e; /* warm brown (top) */
+  --site-bg-to: #5f2319;   /* deeper brown (bottom) */
+  --site-accent: #f6e7db; /* light cream for contrast */
+  --ebook-header-bg: #7a2c1e;
+  --ebook-header-text: #f6e7db;
+  --ebook-card-shadow: rgba(0,0,0,0.12);
+ }
+
+html, body, #root {
+  height: 100%;
+  background: linear-gradient(135deg, var(--site-bg-from), var(--site-bg-to));
+}
+
+/* utility class for pages to use consistent site background */
+.site-bg {
+  /* main gradient plus subtle darker band at the bottom to match the header image */
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 78%, rgba(0,0,0,0.08) 100%), linear-gradient(135deg, var(--site-bg-from), var(--site-bg-to));
+  background-repeat: no-repeat;
+}
+
+/* Ebook header style to match provided brown theme */
+.ebook-header {
+  background: var(--ebook-header-bg);
+  color: var(--ebook-header-text);
+}
+
+.ebook-header .heading, .ebook-header p {
+  color: var(--ebook-header-text);
+}
+
+/* subtle card style for ebook section */
+.ebook-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  box-shadow: 0 6px 18px var(--ebook-card-shadow);
+  border-radius: 12px;
+}
+
+/* Hero section with background image and brown overlay similar to attachment */
+.ebook-hero {
+  background-image: linear-gradient(rgba(122,44,30,0.85), rgba(95,35,25,0.85)), url('https://images.unsplash.com/photo-1519974719765-e6559eac2575?ixlib=rb-4.0.3&q=80&w=1920&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  color: var(--ebook-header-text);
+}
+
+.ebook-hero .hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4.5rem 1rem; /* large vertical spacing */
+}
+
+.ebook-hero h1 {
+  font-size: 2.25rem; /* 36px */
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.ebook-hero p.lead {
+  color: rgba(246,231,219,0.95);
+  margin-top: 0.75rem;
+  font-size: 1.125rem;
+}
+
+.ebook-hero .btn-primary {
+  background-color: var(--ebook-header-text);
+  color: var(--ebook-header-bg);
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.ebook-hero .btn-outline {
+  background: transparent;
+  border: 1px solid rgba(246,231,219,0.6);
+  color: rgba(246,231,219,0.95);
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+}
+
+
+
 @keyframes authorScroll {
   0% {
     transform: translateX(0);
@@ -82,4 +166,20 @@
 
 .animate-review-scroll {
   animation: reviewScroll 25s linear infinite;
+}
+
+/* CHATBOT ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
 }
