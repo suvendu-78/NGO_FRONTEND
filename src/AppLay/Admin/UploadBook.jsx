@@ -6,16 +6,20 @@ import { Navigate } from "react-router-dom";
 const ADMIN_USER_ID = "user_39OGyBvhrLjcSeLbAWOkwcZzJ2C";
 
 const AdminBooks = () => {
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
 
-  // 🔐 ADMIN PROTECTION
+  // ⏳ Wait for Clerk
   if (!isLoaded) return null;
 
-  if (!user || user.id !== ADMIN_USER_ID) {
-    return <Navigate to="/" />;
+  // 🔒 Not logged in
+  if (!isSignedIn) {
+    return <Navigate to="/" replace />;
   }
 
-  // ================= YOUR ORIGINAL LOGIC =================
+  // 🚫 Not admin
+  if (user.id !== ADMIN_USER_ID) {
+    return <Navigate to="/" replace />;
+  }
 
   const [preview, setPreview] = useState(null);
   const [book, setBook] = useState([]);
@@ -23,14 +27,13 @@ const AdminBooks = () => {
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
+    if (file) setPreview(URL.createObjectURL(file));
   };
 
   const Handller = (e) => {
     e.preventDefault();
     setBook([...book, BookName.current.value]);
+    BookName.current.value = "";
   };
 
   return (
@@ -47,11 +50,11 @@ const AdminBooks = () => {
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {/* ================= TABLE ================= */}
+            {/* TABLE */}
             <div className="bg-[#fffaf5] rounded-2xl shadow-lg p-6">
               <button
                 type="button"
-                className="mb-6 bg-[#7a2e1f] text-white px-5 py-2 rounded-full hover:bg-[#5a1f14] transition"
+                className="mb-6 bg-[#7a2e1f] text-white px-5 py-2 rounded-full"
               >
                 + Add New Book
               </button>
@@ -59,21 +62,21 @@ const AdminBooks = () => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left text-[#7a2e1f]">
-                    <th className="pb-3">ID</th>
-                    <th className="pb-3">Book Name</th>
-                    <th className="pb-3 text-center">Action</th>
+                    <th>ID</th>
+                    <th>Book Name</th>
+                    <th className="text-center">Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {book.map((name, index) => (
                     <tr key={index} className="border-b">
-                      <td className="py-3">{index + 1}</td>
-                      <td className="py-3">{name}</td>
-                      <td className="py-3 text-center">
+                      <td>{index + 1}</td>
+                      <td>{name}</td>
+                      <td className="text-center">
                         <button
                           type="button"
-                          className="bg-[#d6a85a] text-[#5a1f14] px-4 py-1 rounded-full hover:opacity-90"
+                          className="bg-[#d6a85a] px-4 py-1 rounded-full"
                         >
                           Show Details
                         </button>
@@ -84,69 +87,42 @@ const AdminBooks = () => {
               </table>
             </div>
 
-            {/* ================= FORM ================= */}
+            {/* FORM */}
             <div className="bg-[#fffaf5] rounded-2xl shadow-lg p-6">
-              <h3 className="text-2xl font-bold mb-6 text-[#5a1f14]">
-                Add Book Admin
-              </h3>
+              <h3 className="text-2xl font-bold mb-6">Add Book Admin</h3>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Name</label>
-                <input
-                  type="text"
-                  placeholder="Book name"
-                  ref={BookName}
-                  className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#d6a85a]"
-                />
-              </div>
+              <input
+                ref={BookName}
+                placeholder="Book name"
+                className="w-full mb-3 px-4 py-2 rounded border"
+              />
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Author</label>
-                <input
-                  type="text"
-                  placeholder="Author name"
-                  className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#d6a85a]"
-                />
-              </div>
+              <input
+                placeholder="Author name"
+                className="w-full mb-3 px-4 py-2 rounded border"
+              />
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Price</label>
-                <input
-                  type="number"
-                  placeholder="Price"
-                  className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#d6a85a]"
-                />
-              </div>
+              <input
+                type="number"
+                placeholder="Price"
+                className="w-full mb-3 px-4 py-2 rounded border"
+              />
 
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Type of Book
-                </label>
-                <select className="w-full px-4 py-2 rounded-lg border bg-white focus:outline-none focus:ring-2 focus:ring-[#d6a85a]">
-                  <option value="">Select type</option>
-                  <option>Novel</option>
-                  <option>Poetry</option>
-                  <option>Story</option>
-                </select>
-              </div>
+              <select className="w-full mb-3 px-4 py-2 rounded border">
+                <option>Novel</option>
+                <option>Poetry</option>
+                <option>Story</option>
+              </select>
 
-              <div>
-                <input type="file" onChange={handleImage} />
-              </div>
+              <input type="file" onChange={handleImage} />
 
               {preview && (
-                <div className="mt-3">
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    className="w-32 h-44 object-cover rounded-lg border shadow"
-                  />
-                </div>
+                <img src={preview} className="mt-3 w-32 h-44 rounded shadow" />
               )}
 
               <button
                 type="submit"
-                className="mt-6 bg-[#7a2e1f] text-white px-6 py-2 rounded-full hover:bg-[#5a1f14] transition"
+                className="mt-6 bg-[#7a2e1f] text-white px-6 py-2 rounded-full"
               >
                 Save Book
               </button>

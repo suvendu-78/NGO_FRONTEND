@@ -3,7 +3,11 @@ import { Send, Mic, Loader, Volume2, X } from "lucide-react";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hello! I'm here to help. How can I assist you today?", sender: "bot" }
+    {
+      id: 1,
+      text: "Hello! I'm here to help. How can I assist you today?",
+      sender: "bot",
+    },
   ]);
   const [input, setInput] = useState("");
   const [isListening, setIsListening] = useState(false);
@@ -14,7 +18,8 @@ const Chatbot = () => {
 
   // Initialize Web Speech API
   useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
@@ -50,12 +55,16 @@ const Chatbot = () => {
     const responses = {
       hello: "Hi there! How can I help you?",
       help: "I can assist you with information about our NGO, events, books, feedback, and more. What would you like to know?",
-      event: "We regularly organize events to promote social awareness. Would you like to know about our upcoming events?",
+      event:
+        "We regularly organize events to promote social awareness. Would you like to know about our upcoming events?",
       book: "We have a great collection of e-books available for free download. Are you interested in any particular topic?",
-      contact: "You can contact us through our contact page or email us directly. Would you like contact details?",
+      contact:
+        "You can contact us through our contact page or email us directly. Would you like contact details?",
       thank: "You're welcome! Is there anything else I can help you with?",
-      "how are you": "I'm doing great, thank you for asking! How can I assist you?",
-      default: "That's interesting! Can you tell me more about what you're looking for? I'm here to help with our NGO's services and resources."
+      "how are you":
+        "I'm doing great, thank you for asking! How can I assist you?",
+      default:
+        "That's interesting! Can you tell me more about what you're looking for? I'm here to help with our NGO's services and resources.",
     };
 
     const lowerMessage = userMessage.toLowerCase();
@@ -75,7 +84,7 @@ const Chatbot = () => {
     const userMessage = {
       id: Date.now(),
       text: input,
-      sender: "user"
+      sender: "user",
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -86,7 +95,7 @@ const Chatbot = () => {
       const botResponse = {
         id: Date.now() + 1,
         text: generateBotResponse(input),
-        sender: "bot"
+        sender: "bot",
       };
       setMessages((prev) => [...prev, botResponse]);
     }, 500);
@@ -158,7 +167,10 @@ const Chatbot = () => {
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
         {messages.map((message) => (
-          <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
+          <div
+            key={message.id}
+            className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+          >
             <div
               className={`max-w-xs px-4 py-3 rounded-lg ${
                 message.sender === "user"
