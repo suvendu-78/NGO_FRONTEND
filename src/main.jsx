@@ -28,6 +28,8 @@ import BooksPayment from "./AppLay/BooksPayment.jsx";
 import PaymentSuccess from "./AppLay/PaymentSuccess.jsx";
 
 import AdminOrders from "./AppLay/Admin/UploadBook.jsx"
+import TermsAndConditions from "./AppLay/TermsAndConditions.jsx";
+import BookReader from "./AppLay/bookreder.jsx";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const Root = createBrowserRouter([
@@ -96,6 +98,11 @@ const Root = createBrowserRouter([
         path: "/success",
         element: <PaymentSuccess/>,
       },
+
+      {
+        path: "/terms-and-conditions",
+        element: <TermsAndConditions/>,
+      },
       // {
       //   path: "/cart-checkout",
       //   element: <CartCheckout />,
@@ -115,6 +122,9 @@ const Root = createBrowserRouter([
       {
       path:"/adminOrders",
       element:<AdminOrders/>
+      },{
+      path:"/book-reader",
+      element:<BookReader/>
       }
     ],
   },

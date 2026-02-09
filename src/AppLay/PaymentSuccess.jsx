@@ -1,21 +1,53 @@
 import { CheckCircle, BookOpen, Home } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate , NavLink } from "react-router-dom";
 import { useEffect } from "react";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  // 🔴 GET PRODUCT TYPE (STATE OR STORAGE)
-  const productType =
-    state?.productType || sessionStorage.getItem("productType");
+  const productType = state?.productType;
+  const cart = state?.cart || [];
 
-  // 🔴 SAVE FOR REFRESH SAFETY
+  // 🔴 SAVE EBOOKS AFTER SUCCESS
   useEffect(() => {
-    if (state?.productType) {
-      sessionStorage.setItem("productType", state.productType);
+    if (productType === "ebook" && cart.length > 0) {
+      // existing data
+      const existingPurchases =
+        JSON.parse(localStorage.getItem("bookPurchases")) || [];
+      const existingIds =
+        JSON.parse(localStorage.getItem("purchasedBookIds")) || [];
+
+      const newPurchases = [...existingPurchases];
+      const newIds = [...existingIds];
+
+      cart.forEach((book) => {
+        if (!newIds.includes(book.id)) {
+          newIds.push(book.id);
+
+          newPurchases.push({
+            bookId: book.id,
+            bookTitle: book.title,
+            author: book.author,
+            price: book.price,
+            purchaseDate: new Date().toISOString(),
+            paymentMethod: "upi", // or selected method
+            customerEmail:
+              localStorage.getItem("currentUserEmail") || "guest",
+          });
+        }
+      });
+
+      localStorage.setItem(
+        "bookPurchases",
+        JSON.stringify(newPurchases)
+      );
+      localStorage.setItem(
+        "purchasedBookIds",
+        JSON.stringify(newIds)
+      );
     }
-  }, [state]);
+  }, [productType, cart]);
 
   // 🔴 AUTO REDIRECT
   useEffect(() => {
@@ -34,7 +66,7 @@ const PaymentSuccess = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 via-emerald-800 to-black px-4">
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 max-w-md w-full text-center text-white shadow-2xl animate-fadeIn">
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 max-w-md w-full text-center text-white shadow-2xl">
 
         <div className="relative w-28 h-28 mx-auto mb-6">
           <div className="absolute inset-0 rounded-full bg-green-500/30 animate-ping"></div>
@@ -48,8 +80,9 @@ const PaymentSuccess = () => {
         </h1>
 
         <p className="text-gray-200 mb-6 text-sm">
-          {productType === "ebook" && "Redirecting to your dashboard 📘"}
-          {productType === "book" && "Redirecting to book store 📦"}
+          {productType === "ebook"
+            ? "Redirecting to your dashboard 📘"
+            : "Redirecting to book store 📦"}
         </p>
 
         <button
@@ -62,7 +95,9 @@ const PaymentSuccess = () => {
         >
           {productType === "ebook" ? (
             <>
+           
               <BookOpen /> Read Now
+             
             </>
           ) : (
             <>

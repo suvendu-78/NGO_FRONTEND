@@ -109,7 +109,7 @@ const Payment = () => {
 
           <button
             onClick={() => navigate("/success", {
-  state: { productType: "ebook" }
+state: { productType: "ebook", cart: cart }
 })
 }
             className="mt-6 w-full bg-gradient-to-r from-amber-600 to-amber-800 hover:scale-105 transition text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2"

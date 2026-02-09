@@ -1,6 +1,6 @@
-import { Search, ShoppingCart } from "lucide-react";
+import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Books = () => {
   const navigate = useNavigate();
@@ -11,6 +11,9 @@ const Books = () => {
   // 🔴 CART STATES
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+
+  // 🔴 MOBILE MENU STATE
+  const [showMenu, setShowMenu] = useState(false);
 
   const books = [
     {
@@ -78,7 +81,7 @@ const Books = () => {
   // 🔴 ADD TO CART
   const addToCart = (book) => {
     setCart((prev) =>
-      prev.find((b) => b.title === book.title) ? prev : [...prev, book]
+      prev.find((b) => b.title === book.title) ? prev : [...prev, book],
     );
   };
 
@@ -88,25 +91,92 @@ const Books = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#7a2e1f] text-[#3b2a1a] flex">
-      {/* LEFT SIDEBAR */}
+    <div className="min-h-screen bg-[#7a2e1f] text-[#3b2a1a] flex relative">
+
+      {/* 🔴 MOBILE MENU BUTTON */}
+      <button
+        onClick={() => setShowMenu(true)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-[#7a2e1f] text-white p-3 rounded-lg shadow-lg"
+      >
+        <Menu/>
+      </button>
+
+      {/* 🔴 MOBILE SIDEBAR */}
+      {showMenu && (
+        <div className="fixed inset-0 bg-black/60 z-40 flex">
+          <aside className="w-64 bg-[#f6e4d5] p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-xl font-bold text-[#7a2e1f]">
+                Sahitya Store
+              </h1>
+              <button onClick={() => setShowMenu(false)}>
+                <X/>
+              </button>
+            </div>
+
+            <nav className="space-y-4 text-sm font-medium">
+              <NavLink to="/user-dashboard" onClick={() => setShowMenu(false)}>
+                <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+                  Dashboard
+                </div>
+              </NavLink>
+
+              <NavLink to="/e_book" onClick={() => setShowMenu(false)}>
+                <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+                  Library
+                </div>
+              </NavLink>
+
+              <NavLink onClick={() => setShowMenu(false)}>
+                <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+                  Orders
+                </div>
+              </NavLink>
+
+              <NavLink
+                to="/terms-and-conditions"
+                onClick={() => setShowMenu(false)}
+              >
+                <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+                  Terms & Conditions
+                </div>
+              </NavLink>
+            </nav>
+          </aside>
+        </div>
+      )}
+
+      {/* 🔴 DESKTOP SIDEBAR */}
       <aside className="w-64 bg-[#f6e4d5] p-6 hidden md:block">
         <h1 className="text-2xl font-bold mb-8 text-[#7a2e1f]">
           Sahitya Store
         </h1>
+
         <nav className="space-y-4 text-sm font-medium">
-          {["Account", "Dashboard", "Library", "Favourite", "Orders"].map(
-            (item) => (
-              <div
-                key={item}
-                className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8] cursor-pointer"
-              >
-                {item}
-              </div>
-            )
-          )}
+          <NavLink to="/user-dashboard">
+            <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+              Dashboard
+            </div>
+          </NavLink>
+
+          <NavLink to="/e_book">
+            <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+              Library
+            </div>
+          </NavLink>
+
+          <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8] cursor-pointer">
+            Orders
+          </div>
+
+          <NavLink to="/terms-and-conditions">
+            <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+              Terms & Conditions
+            </div>
+          </NavLink>
         </nav>
       </aside>
+
 
       {/* MAIN CONTENT */}
       <main className="flex-1 bg-[#fdf6ef] rounded-l-3xl p-6">
@@ -202,9 +272,7 @@ const Books = () => {
             </div>
 
             {cart.length === 0 && (
-              <p className="text-gray-500 text-center mt-6">
-                Cart is empty
-              </p>
+              <p className="text-gray-500 text-center mt-6">Cart is empty</p>
             )}
 
             {cart.map((item) => (
@@ -232,7 +300,9 @@ const Books = () => {
             {cart.length > 0 && (
               <button
                 onClick={() =>
-                  navigate("/books-payment", { state: { cart, productType:"book"} })
+                  navigate("/books-payment", {
+                    state: { cart, productType: "book" },
+                  })
                 }
                 className="w-full bg-[#7a2e1f] text-white py-3 rounded-lg mt-4"
               >

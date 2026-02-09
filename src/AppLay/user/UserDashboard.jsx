@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BookOpen, Download, Eye, Trash2, User, Calendar, DollarSign, LogOut } from "lucide-react";
-
+import { NavLink } from "react-router-dom";
 const UserDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -325,6 +325,8 @@ const UserDashboard = () => {
                           <p className="text-xs text-gray-500">Order ID: {`ORD-${purchase.purchaseDate.slice(0, 10)}-${purchase.bookId}`}</p>
                           <p className="text-xs text-gray-500">Email: {purchase.customerEmail}</p>
                         </div>
+                        
+                        <NavLink to="/bookReader">
                         <button
                           onClick={() => handleReadBook(
                             allBooks.find(b => b.id === purchase.bookId) || {}
@@ -334,6 +336,7 @@ const UserDashboard = () => {
                           <Eye size={14} />
                           Read Book
                         </button>
+                        </NavLink>
                       </div>
                     </div>
                   </div>
