@@ -114,6 +114,7 @@
 // export default Foot;
 
 import { NavLink } from "react-router-dom";
+import { FaWhatsapp, FaFacebook, FaYoutube } from "react-icons/fa";
 
 const Foot = () => {
   const linkClass = "text-sm text-[#f7dca1] hover:text-white";
@@ -122,43 +123,60 @@ const Foot = () => {
     <>
       <footer className="bg-[#7a2e1f] text-[#f7dca1] border-t-4 border-[#c9a24d]">
         <div className="max-w-7xl mx-auto px-10 py-12 grid md:grid-cols-5 gap-8">
+          
+          {/* QUICK LINKS */}
           <div>
             <h3 className="font-semibold mb-4">Quick Links</h3>
-            <NavLink to="/" className={linkClass}>
-              Home
-            </NavLink>
-            <br />
-            <NavLink to="/event" className={linkClass}>
-              Events
-            </NavLink>
-            <br />
-            <NavLink to="/books" className={linkClass}>
-              Books
-            </NavLink>
+            <NavLink to="/" className={linkClass}>Home</NavLink><br />
+            <NavLink to="/event" className={linkClass}>Events</NavLink><br />
+            <NavLink to="/books" className={linkClass}>Books</NavLink><br />
+            <NavLink to="/e_book" className={linkClass}>E-Books</NavLink><br />
+            <NavLink to="/authors" className={linkClass}>All Authors</NavLink><br />
+            <NavLink to="/feedback" className={linkClass}>Feedback</NavLink>
           </div>
 
-          <div>
-            <h3 className="font-semibold mb-4">Authors</h3>
-            <NavLink to="/authors" className={linkClass}>
-              All Authors
-            </NavLink>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Books</h3>
-            <NavLink to="/books" className={linkClass}>
-              Browse Books
-            </NavLink>
-          </div>
-
+          {/* CONTACT */}
           <div>
             <h3 className="font-semibold mb-4">Contact</h3>
             <p>Email: info@literaturengo.org</p>
           </div>
 
+          {/* FOLLOW US */}
           <div>
             <h3 className="font-semibold mb-4">Follow Us</h3>
-            <div className="flex gap-4 text-xl">🌐 📘 🐦 📸</div>
+            <div className="flex items-center gap-5">
+              
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/919999999999"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition"
+              >
+                <FaWhatsapp size={26} />
+              </a>
+
+              {/* Facebook */}
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition"
+              >
+                <FaFacebook size={26} />
+              </a>
+
+              {/* YouTube */}
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition"
+              >
+                <FaYoutube size={28} />
+              </a>
+
+            </div>
           </div>
         </div>
 
@@ -171,3 +189,4 @@ const Foot = () => {
 };
 
 export default Foot;
+

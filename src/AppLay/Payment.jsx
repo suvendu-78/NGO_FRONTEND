@@ -29,7 +29,7 @@ const Payment = () => {
       <div className="max-w-5xl w-full grid md:grid-cols-3 gap-6">
 
         {/* PAYMENT METHODS */}
-        <div className="md:col-span-2 bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+        <div className="md:col-span-2 bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-white">
           <h2 className="text-2xl font-bold text-white mb-6">
             💳 Choose Payment Method
           </h2>
@@ -48,7 +48,7 @@ const Payment = () => {
                 <img src="https://img.icons8.com/color/48/paytm.png" />
                 <img src="https://img.icons8.com/color/48/bhim.png" />
               </div>
-              <input className="input" placeholder="example@upi" />
+              <input className="input " placeholder="example@upi" />
             </div>
           )}
 

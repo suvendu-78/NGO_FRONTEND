@@ -1,134 +1,182 @@
-import { useState, useRef } from "react";
-import { useUser } from "@clerk/clerk-react";
+import { useState } from "react";
+import { useUser, useAuth } from "@clerk/clerk-react";
 import { Navigate } from "react-router-dom";
 
-// 👑 PUT YOUR REAL ADMIN USER ID HERE
 const ADMIN_USER_ID = "user_39OGyBvhrLjcSeLbAWOkwcZzJ2C";
 
 const AdminBooks = () => {
   const { user, isLoaded, isSignedIn } = useUser();
+  const { getToken } = useAuth();
 
-  // ⏳ Wait for Clerk
+  // ======================
+  // STATES
+  // ======================
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [pdfFile, setPdfFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
+
   if (!isLoaded) return null;
+  if (!isSignedIn) return <Navigate to="/" replace />;
+  if (user.id !== ADMIN_USER_ID) return <Navigate to="/" replace />;
 
-  // 🔒 Not logged in
-  if (!isSignedIn) {
-    return <Navigate to="/" replace />;
-  }
-
-  // 🚫 Not admin
-  if (user.id !== ADMIN_USER_ID) {
-    return <Navigate to="/" replace />;
-  }
-
-  const [preview, setPreview] = useState(null);
-  const [book, setBook] = useState([]);
-  const BookName = useRef();
+  const handlePdf = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (file) setPdfFile(file);
+  };
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    console.log(file);
+    if (file) setImageFile(file);
   };
 
-  const Handller = (e) => {
+  // ======================
+  // SUBMIT
+  // ======================
+  const Handller = async (e) => {
     e.preventDefault();
-    setBook([...book, BookName.current.value]);
-    BookName.current.value = "";
+
+    setMessage("");
+
+    if (!title || !description || !price || !pdfFile) {
+      setIsError(true);
+      setMessage("All fields including PDF are required");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const token = await getToken();
+
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("pdf", pdfFile); // MUST MATCH ROUTER
+      if (imageFile) formData.append("image", imageFile);
+
+      console.log([...formData.entries()]);
+
+      const res = await fetch(
+        "http://localhost:8000/api/v1/user/admin/upload-book",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        },
+      );
+
+      const data = await res.json();
+      console.log("Response:", data);
+
+      if (!res.ok) throw new Error(data.message);
+
+      setIsError(false);
+      setMessage("Book uploaded successfully ✅");
+
+      // reset form
+      setTitle("");
+      setDescription("");
+      setPrice("");
+      setPdfFile(null);
+      setImageFile(null);
+    } catch (err) {
+      console.error(err);
+      setIsError(true);
+      setMessage("Upload failed ❌");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // ======================
+  // UI
+  // ======================
   return (
-    <div className="min-h-screen bg-[#f6e9dc] text-[#3b1f14]">
-      <header className="bg-[#7a2e1f] text-white px-8 py-4 flex justify-between items-center shadow">
-        <h1 className="text-xl font-bold">Odia Sahitya | Admin</h1>
-        <span className="text-sm opacity-90">Admin Panel</span>
-      </header>
+    <div className="min-h-screen bg-[#f4efe9] flex items-center justify-center px-4">
+      <form
+        onSubmit={Handller}
+        className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8"
+      >
+        <h2 className="text-3xl font-bold text-center text-[#6b2c1a] mb-8">
+          Add New Book
+        </h2>
 
-      <form className="space-y-4" onSubmit={Handller}>
-        <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6 text-[#5a1f14]">
-            Books Admin
-          </h2>
+        {/* TITLE */}
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Book Title"
+          className="w-full mb-3 px-4 py-3 border rounded-lg"
+        />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {/* TABLE */}
-            <div className="bg-[#fffaf5] rounded-2xl shadow-lg p-6">
-              <button
-                type="button"
-                className="mb-6 bg-[#7a2e1f] text-white px-5 py-2 rounded-full"
-              >
-                + Add New Book
-              </button>
+        {/* DESCRIPTION */}
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Book Description"
+          className="w-full mb-3 px-4 py-3 border rounded-lg"
+        />
 
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b text-left text-[#7a2e1f]">
-                    <th>ID</th>
-                    <th>Book Name</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
+        {/* PRICE */}
+        <input
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          placeholder="Price"
+          className="w-full mb-4 px-4 py-3 border rounded-lg"
+        />
 
-                <tbody>
-                  {book.map((name, index) => (
-                    <tr key={index} className="border-b">
-                      <td>{index + 1}</td>
-                      <td>{name}</td>
-                      <td className="text-center">
-                        <button
-                          type="button"
-                          className="bg-[#d6a85a] px-4 py-1 rounded-full"
-                        >
-                          Show Details
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* FORM */}
-            <div className="bg-[#fffaf5] rounded-2xl shadow-lg p-6">
-              <h3 className="text-2xl font-bold mb-6">Add Book Admin</h3>
-
-              <input
-                ref={BookName}
-                placeholder="Book name"
-                className="w-full mb-3 px-4 py-2 rounded border"
-              />
-
-              <input
-                placeholder="Author name"
-                className="w-full mb-3 px-4 py-2 rounded border"
-              />
-
-              <input
-                type="number"
-                placeholder="Price"
-                className="w-full mb-3 px-4 py-2 rounded border"
-              />
-
-              <select className="w-full mb-3 px-4 py-2 rounded border">
-                <option>Novel</option>
-                <option>Poetry</option>
-                <option>Story</option>
-              </select>
-
-              <input type="file" onChange={handleImage} />
-
-              {preview && (
-                <img src={preview} className="mt-3 w-32 h-44 rounded shadow" />
-              )}
-
-              <button
-                type="submit"
-                className="mt-6 bg-[#7a2e1f] text-white px-6 py-2 rounded-full"
-              >
-                Save Book
-              </button>
-            </div>
+        {/* PDF Upload */}
+        <label className="block mb-4 cursor-pointer">
+          <input
+            type="file"
+            accept="application/pdf"
+            hidden
+            onChange={handlePdf}
+          />
+          <div className="border-2 border-dashed border-[#7a2e1f] p-6 text-center rounded-xl">
+            Upload PDF {pdfFile && `: ${pdfFile.name}`}
           </div>
-        </div>
+        </label>
+
+        {/* IMAGE Upload */}
+        <label className="block mb-6 cursor-pointer">
+          <input type="file" accept="image/*" hidden onChange={handleImage} />
+          <div className="border-2 border-dashed border-gray-400 p-6 text-center rounded-xl">
+            Upload Cover Image (optional) {imageFile && `: ${imageFile.name}`}
+          </div>
+        </label>
+
+        {/* MESSAGE */}
+        {message && (
+          <div
+            className={`mb-4 text-center font-semibold ${
+              isError ? "text-red-600" : "text-green-600"
+            }`}
+          >
+            {message}
+          </div>
+        )}
+
+        {/* BUTTON */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-[#7a2e1f] text-white py-3 rounded-full"
+        >
+          {loading ? "Uploading..." : "Save Book"}
+        </button>
       </form>
     </div>
   );

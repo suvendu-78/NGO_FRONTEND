@@ -68,11 +68,11 @@ const Head = () => {
               <NavLink to="/books" className={menuItemClass}>
                 Books
               </NavLink>
+               <NavLink to="/E_Book" className={menuItemClass}>
+                E_Books
+              </NavLink>
               <NavLink to="/authors" className={menuItemClass}>
                 Authors
-              </NavLink>
-              <NavLink to="/feedback" className={menuItemClass}>
-                Feedback
               </NavLink>
               <NavLink to="/about" className={menuItemClass}>
                 About Us
@@ -80,8 +80,8 @@ const Head = () => {
               <NavLink to="/contact" className={menuItemClass}>
                 Contact
               </NavLink>
-              <NavLink to="/E_Book" className={menuItemClass}>
-                E_Books
+              <NavLink to="/feedback" className={menuItemClass}>
+                Feedback
               </NavLink>
             </div>
           </div>
@@ -142,11 +142,11 @@ const Head = () => {
             Authors
           </NavLink>
           <NavLink
-            to="/feedback"
+            to="/e_book"
             onClick={() => setOpen(false)}
             className={menuItemClass}
           >
-            Feedback
+            E_Book
           </NavLink>
           <NavLink
             to="/about"
@@ -162,12 +162,12 @@ const Head = () => {
           >
             Contact
           </NavLink>
-           <NavLink
-            to="/e_book"
+          <NavLink
+            to="/feedback"
             onClick={() => setOpen(false)}
             className={menuItemClass}
           >
-            E_Book
+            Feedback
           </NavLink>
           <NavLink
             to="/register"

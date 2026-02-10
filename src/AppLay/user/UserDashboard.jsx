@@ -123,7 +123,7 @@ const UserDashboard = () => {
   return (
     <div className="min-h-screen site-bg">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-8">
+      <div className="bg-gradient-to-r from-red-600 to-indigo-600 text-white py-8">
         <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold mb-2">My Dashboard</h1>
@@ -183,7 +183,7 @@ const UserDashboard = () => {
             className={`px-6 py-3 font-medium border-b-2 transition ${
               activeTab === "library"
                 ? "border-blue-600 text-blue-600"
-                : "border-transparent text-gray-600 hover:text-blue-600"
+                : "border-transparent text-white-600 hover:text-blue-600"
             }`}
           >
             📚 My Library ({totalBooks})
@@ -193,7 +193,7 @@ const UserDashboard = () => {
             className={`px-6 py-3 font-medium border-b-2 transition ${
               activeTab === "purchases"
                 ? "border-blue-600 text-blue-600"
-                : "border-transparent text-gray-600 hover:text-blue-600"
+                : "border-transparent text-white-600 hover:text-blue-600"
             }`}
           >
             🛒 Purchase History ({purchases.length})
