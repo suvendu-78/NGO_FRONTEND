@@ -122,6 +122,8 @@ const Foot = () => {
   return (
     <>
       <footer className="bg-[#7a2e1f] text-[#f7dca1] border-t-4 border-[#c9a24d]">
+        
+        {/* GRID CONTAINER */}
         <div className="max-w-7xl mx-auto px-10 py-12 grid md:grid-cols-5 gap-8">
           
           {/* QUICK LINKS */}
@@ -145,48 +147,52 @@ const Foot = () => {
           <div>
             <h3 className="font-semibold mb-4">Follow Us</h3>
             <div className="flex items-center gap-5">
-              
-              {/* WhatsApp */}
-              <a
-                href="https://wa.me/919999999999"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition"
-              >
+              <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
                 <FaWhatsapp size={26} />
               </a>
-
-              {/* Facebook */}
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition"
-              >
+              <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
                 <FaFacebook size={26} />
               </a>
-
-              {/* YouTube */}
-              <a
-                href="https://www.youtube.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition"
-              >
+              <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
                 <FaYoutube size={28} />
               </a>
-
             </div>
           </div>
+
+          {/* LOCATION MAP */}
+          <div className="md:col-span-2">
+            <h3 className="font-semibold mb-4">Our Location</h3>
+
+            <div className="w-full h-40 rounded-lg overflow-hidden border border-[#c9a24d]/50">
+              <iframe
+                title="Sanjogi Sahitya Sansad Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3738.512324!2d85.881083!3d21.391594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1ec10375f4b855%3A0x39c88a246dc61ba0!2sSanjogi%20Sajafula%20Sahitya%20Sansad!5e0!3m2!1sen!2sin!4v1710000000000"
+                className="w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Sanjogi+Sajafula+Sahitya+Sansad+Ghatgaon+Odisha"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs underline text-[#f7dca1] mt-2 inline-block"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+
+        </div> {/* ✅ THIS WAS MISSING */}
+
+        {/* FOOTER BOTTOM */}
+        <div className="text-center py-4 border-t border-[#c9a24d]/40 text-sm">
+          Copyright © {new Date().getFullYear()} Samyogee Sahitya Sansad. All Rights Reserved.
         </div>
 
-        <div className="text-center py-4 border-t border-[#c9a24d]/40 text-sm">
-          © {new Date().getFullYear()} Odia Sahitya. All Rights Reserved.
-        </div>
       </footer>
     </>
   );
 };
 
 export default Foot;
-
