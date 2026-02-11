@@ -183,3 +183,38 @@ html, body, #root {
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-in-out;
 }
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-wrapper {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 25s linear infinite;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+.scroll-track {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 30s linear infinite;
+}

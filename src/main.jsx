@@ -30,6 +30,7 @@ import PaymentSuccess from "./AppLay/PaymentSuccess.jsx";
 import AdminOrders from "./AppLay/Admin/UploadBook.jsx"
 import TermsAndConditions from "./AppLay/TermsAndConditions.jsx";
 import BookReader from "./AppLay/bookreder.jsx";
+import OrderHistory from "./AppLay/OrderHistory.jsx";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const Root = createBrowserRouter([
@@ -102,6 +103,10 @@ const Root = createBrowserRouter([
       {
         path: "/terms-and-conditions",
         element: <TermsAndConditions/>,
+      },
+      {
+        path: "/order",
+        element: <OrderHistory/>,
       },
       // {
       //   path: "/cart-checkout",

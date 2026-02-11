@@ -385,6 +385,42 @@ const Books = () => {
     setCart(cart.filter((b) => b._id !== id));
   };
 
+  // 🧾 CREATE ORDER + GO TO PAYMENT
+const handleCheckout = async () => {
+  try {
+    const address = "Default Address"; // You can replace with user input later
+
+    for (const item of cart) {
+      await fetch("http://localhost:8000/api/v1/user/order/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          bookId: item._id,
+          quantity: 1,
+          totalPrice: item.price,
+          address,
+        }),
+      });
+    }
+
+    // Clear cart after order
+    setCart([]);
+
+    // Navigate to payment
+    navigate("/books-payment", {
+      state: { cart, productType: "book" },
+    });
+
+  } catch (error) {
+    console.error("Order creation failed:", error);
+    alert("Failed to create order");
+  }
+};
+
+
   return (
     <div className="min-h-screen bg-[#7a2e1f] flex relative">
       {/* MOBILE MENU BUTTON */}
@@ -422,7 +458,7 @@ const Books = () => {
               </NavLink>
                <NavLink to="/order" onClick={() => setShowMenu(false)}>
                 <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
-                  Order
+                  Order History
                 </div>
               </NavLink>
               <NavLink to="/terms-and-conditions" onClick={() => setShowMenu(false)}>
@@ -455,7 +491,7 @@ const Books = () => {
           </NavLink>
           <NavLink to="/order">
             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
-              Order
+              Order History
             </div>
           </NavLink>
 
@@ -581,11 +617,7 @@ const Books = () => {
 
             {cart.length > 0 && (
               <button
-                onClick={() =>
-                  navigate("/books-payment", {
-                    state: { cart, productType: "book" },
-                  })
-                }
+                onClick={handleCheckout}
                 className="w-full bg-[#7a2e1f] text-white py-3 rounded-lg mt-4"
               >
                 Proceed to Payment
