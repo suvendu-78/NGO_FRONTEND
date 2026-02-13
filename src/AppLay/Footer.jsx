@@ -150,10 +150,10 @@ const Foot = () => {
               <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
                 <FaWhatsapp size={26} />
               </a>
-              <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+              <a href="https://www.facebook.com/share/1CXPLBiYkP/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
                 <FaFacebook size={26} />
               </a>
-              <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+              <a href="https://youtube.com/@sanjogi_sajafula?si=IT-dR6YyKZbic5qA" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
                 <FaYoutube size={28} />
               </a>
             </div>

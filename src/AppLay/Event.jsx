@@ -1,5 +1,9 @@
-import odisha from "../assets/odisha.jpeg";
+// import odisha from "../assets/odisha.jpeg";
 import bgthim from "../assets/bgthim.png";
+import event_1 from "../assets/event_1.png";
+import event_2 from "../assets/event_2.png";
+import event_3 from "../assets/event_3.png";
+// import event_4 from "../assets/event_3.png";
 const Event = () => {
   return (
     <>
@@ -10,12 +14,17 @@ const Event = () => {
         <div className="overflow-hidden">
           <div className="flex w-max gap-10 animate-posterScroll">
             <img
-              src={odisha}
+              src={event_1}
               alt="Odisha Art"
               className="w-[520px]  rounded-xl border-4 border-[#e8c28b] shadow-2xl"
             />
             <img
-              src={odisha}
+              src={event_2}
+              alt="Odisha Art"
+              className="w-[520px] rounded-xl border-4 border-[#e8c28b] shadow-2xl"
+            />
+            <img
+              src={event_3}
               alt="Odisha Art"
               className="w-[520px] rounded-xl border-4 border-[#e8c28b] shadow-2xl"
             />
