@@ -1,17 +1,13 @@
 import { useState } from "react";
-import { useUser, useAuth } from "@clerk/clerk-react";
-import { Navigate } from "react-router-dom";
-
-const ADMIN_USER_ID = "user_39OGyBvhrLjcSeLbAWOkwcZzJ2C";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminBooks = () => {
-  const { user, isLoaded, isSignedIn } = useUser();
-  const { getToken } = useAuth();
-
   // ======================
   // STATES
   // ======================
   const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [imei, setImei] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
@@ -21,19 +17,20 @@ const AdminBooks = () => {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
 
-  if (!isLoaded) return null;
-  if (!isSignedIn) return <Navigate to="/" replace />;
-  if (user.id !== ADMIN_USER_ID) return <Navigate to="/" replace />;
+  const navigate = useNavigate();
 
+  // ======================
+  // FILE HANDLERS
+  // ======================
   const handlePdf = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+
     if (file) setPdfFile(file);
   };
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+
     if (file) setImageFile(file);
   };
 
@@ -45,55 +42,90 @@ const AdminBooks = () => {
 
     setMessage("");
 
-    if (!title || !description || !price || !pdfFile) {
+    if (!title || !author || !imei || !description || !price || !pdfFile) {
       setIsError(true);
-      setMessage("All fields including PDF are required");
+
+      setMessage("All fields including Author & IMEI are required");
+
       return;
     }
 
     try {
       setLoading(true);
 
-      const token = await getToken();
+      // ✅ GET TOKEN FROM LOCALSTORAGE
+      const token = localStorage.getItem("token");
+      console.log(token);
+      if (!token) {
+        setIsError(true);
 
+        setMessage("Admin not logged in. Please login first ❌");
+
+        navigate("/adminlogin");
+
+        return;
+      }
+
+      // ======================
+      // FORM DATA
+      // ======================
       const formData = new FormData();
+
       formData.append("title", title);
+      formData.append("author", author);
+      formData.append("imei", imei);
       formData.append("description", description);
       formData.append("price", price);
-      formData.append("pdf", pdfFile); // MUST MATCH ROUTER
-      if (imageFile) formData.append("image", imageFile);
+      formData.append("pdf", pdfFile);
 
-      console.log([...formData.entries()]);
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
 
+      // ======================
+      // API CALL WITH TOKEN
+      // ======================
       const res = await fetch(
         "http://localhost:8000/api/v1/user/admin/upload-book",
+
         {
           method: "POST",
+
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // ✅ TOKEN ADDED
           },
+
           body: formData,
         },
       );
 
       const data = await res.json();
+
       console.log("Response:", data);
 
       if (!res.ok) throw new Error(data.message);
 
+      // ======================
+      // SUCCESS
+      // ======================
       setIsError(false);
+
       setMessage("Book uploaded successfully ✅");
 
       // reset form
       setTitle("");
+      setAuthor("");
+      setImei("");
       setDescription("");
       setPrice("");
       setPdfFile(null);
       setImageFile(null);
     } catch (err) {
       console.error(err);
+
       setIsError(true);
-      setMessage("Upload failed ❌");
+
+      setMessage(err.message || "Upload failed ❌");
     } finally {
       setLoading(false);
     }
@@ -117,6 +149,22 @@ const AdminBooks = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Book Title"
+          className="w-full mb-3 px-4 py-3 border rounded-lg"
+        />
+
+        {/* AUTHOR */}
+        <input
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          placeholder="Author Name"
+          className="w-full mb-3 px-4 py-3 border rounded-lg"
+        />
+
+        {/* IMEI */}
+        <input
+          value={imei}
+          onChange={(e) => setImei(e.target.value)}
+          placeholder="IMEI Number"
           className="w-full mb-3 px-4 py-3 border rounded-lg"
         />
 
@@ -145,6 +193,7 @@ const AdminBooks = () => {
             hidden
             onChange={handlePdf}
           />
+
           <div className="border-2 border-dashed border-[#7a2e1f] p-6 text-center rounded-xl">
             Upload PDF {pdfFile && `: ${pdfFile.name}`}
           </div>
@@ -153,6 +202,7 @@ const AdminBooks = () => {
         {/* IMAGE Upload */}
         <label className="block mb-6 cursor-pointer">
           <input type="file" accept="image/*" hidden onChange={handleImage} />
+
           <div className="border-2 border-dashed border-gray-400 p-6 text-center rounded-xl">
             Upload Cover Image (optional) {imageFile && `: ${imageFile.name}`}
           </div>
@@ -169,14 +219,21 @@ const AdminBooks = () => {
           </div>
         )}
 
-        {/* BUTTON */}
+        {/* SUBMIT */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#7a2e1f] text-white py-3 rounded-full"
+          className="w-full bg-[#7a2e1f] text-white py-3 rounded-full hover:bg-[#5c2115]"
         >
           {loading ? "Uploading..." : "Save Book"}
         </button>
+
+        {/* DASHBOARD LINK */}
+        <NavLink to="/adminOrders">
+          <p className="text-red-500 text-center mt-4 hover:underline">
+            Go to Dashboard
+          </p>
+        </NavLink>
       </form>
     </div>
   );

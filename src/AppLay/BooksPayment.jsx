@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { CreditCard, Landmark, Wallet, ShieldCheck, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,14 +14,13 @@ const BooksPayment = () => {
   const [method, setMethod] = useState("");
   const [upiId, setUpiId] = useState("");
 
-  const [details, setDetails] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    pincode: "",
-    address: "",
-  });
-
+  // ✅ REFS
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const phoneRef = useRef();
+  const pincodeRef = useRef();
+  const addressRef = useRef();
+  console.log(upiId);
   if (cart.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center text-xl">
@@ -32,52 +31,83 @@ const BooksPayment = () => {
 
   const total = cart.reduce((sum, item) => sum + Number(item.price), 0);
   const gst = total * 0.05;
+  const token = localStorage.getItem("token");
+  console.log(token);
 
+  // ✅ VALIDATION USING REFS
   const isFormValid = () => {
-    const { name, email, phone, address } = details;
+    const name = nameRef.current?.value;
+    const email = emailRef.current?.value;
+    const phone = phoneRef.current?.value;
+    const address = addressRef.current?.value;
+
     if (!name || !email || !phone || !address) return false;
     if (!/^\d{10}$/.test(phone)) return false;
     if (!method) return false;
     if (method === "upi" && !upiId) return false;
+
     return true;
   };
 
-  const handlePayNow = () => {
+  const handlePayNow = async () => {
+    const details = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      phone: phoneRef.current.value,
+      pincode: pincodeRef.current.value,
+      address: addressRef.current.value,
+    };
+
     if (!isFormValid()) {
       toast.error("Please complete all required fields ❗");
       return;
     }
 
-    const existingOrders = JSON.parse(localStorage.getItem("bookOrders")) || [];
+    try {
+      const res = await fetch(
+        "http://localhost:8000/api/v1/user/order/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          // credentials: "include",
+          body: JSON.stringify({
+            books: cart.map((item) => ({
+              bookId: item._id,
+              totalBooks: item.quantity || 1,
+            })),
+            totalPrice: cart.reduce((a, b) => a + b.price, 0),
 
-    const deliveryDate = new Date();
-    deliveryDate.setDate(deliveryDate.getDate() + 5);
+            address: {
+              fullName: details.name,
+              email: details.email,
+              phone: details.phone,
+              pincode: details.pincode,
+              fullAddress: details.address,
+            },
+            paymentId: upiId,
+            productType: productType,
+          }),
+        },
+      );
 
-    const newOrders = cart.map((book) => ({
-      id: Date.now() + Math.random(),
-      orderId: "ORD-" + Date.now(),
-      bookId: book.id,
-      title: book.title,
-      author: book.author,
-      price: Number(book.price),
-      img: book.img || book.coverImage,
-      orderDate: new Date().toISOString(),
-      estimatedDelivery: deliveryDate.toISOString(),
-      status: "Processing",
-      customerName: details.name,
-      customerEmail: details.email,
-      phone: details.phone,
-      address: details.address,
-      pincode: details.pincode,
-      paymentMethod: method,
-    }));
+      const data = await res.json();
 
-    localStorage.setItem(
-      "bookOrders",
-      JSON.stringify([...existingOrders, ...newOrders]),
-    );
+      if (!res.ok) {
+        throw new Error(data.message || "Order failed");
+      }
 
-    navigate("/success", { state: { productType } });
+      toast.success("Order placed successfully 🎉");
+
+      setTimeout(() => {
+        navigate("/paymentSuccessbook", { state: { productType } });
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Payment failed ❌");
+    }
   };
 
   return (
@@ -96,53 +126,34 @@ const BooksPayment = () => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <input
+                ref={nameRef}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none"
                 placeholder="Full Name"
-                value={details.name}
-                onChange={(e) =>
-                  setDetails({ ...details, name: e.target.value })
-                }
               />
 
               <input
+                ref={emailRef}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none"
                 placeholder="Email"
-                value={details.email}
-                onChange={(e) =>
-                  setDetails({ ...details, email: e.target.value })
-                }
               />
 
               <input
+                ref={phoneRef}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none"
                 placeholder="Phone"
-                value={details.phone}
-                onChange={(e) => {
-                  const v = e.target.value.replace(/\D/g, "");
-                  if (v.length <= 10) setDetails({ ...details, phone: v });
-                }}
               />
 
               <input
+                ref={pincodeRef}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none"
                 placeholder="Pincode"
-                value={details.pincode}
-                onChange={(e) =>
-                  setDetails({
-                    ...details,
-                    pincode: e.target.value.replace(/\D/g, "").slice(0, 6),
-                  })
-                }
               />
 
               <textarea
+                ref={addressRef}
                 rows={3}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none md:col-span-2"
                 placeholder="Full Address"
-                value={details.address}
-                onChange={(e) =>
-                  setDetails({ ...details, address: e.target.value })
-                }
               />
             </div>
           </div>
@@ -174,100 +185,13 @@ const BooksPayment = () => {
               />
             </div>
 
-            {/* UPI */}
             {method === "upi" && (
-              <div className="space-y-4">
-                <div className="flex gap-4">
-                  <img src="https://img.icons8.com/color/48/google-pay.png" />
-                  <img src="https://img.icons8.com/color/48/phone-pe.png" />
-                  <img src="https://img.icons8.com/color/48/paytm.png" />
-                  <img src="https://img.icons8.com/color/48/bhim.png" />
-                </div>
-
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none"
-                  placeholder="example@upi"
-                  value={upiId}
-                  onChange={(e) => setUpiId(e.target.value)}
-                />
-              </div>
-            )}
-
-            {/* CARD */}
-            {method === "card" && (
-              <div className="space-y-4">
-                {/* CARD LOGOS */}
-                <div className="flex gap-4">
-                  <img src="https://img.icons8.com/color/48/visa.png" />
-                  <img src="https://img.icons8.com/color/48/mastercard.png" />
-                  <img src="https://img.icons8.com/color/48/rupay.png" />
-                  <img src="https://img.icons8.com/color/48/amex.png" />
-                </div>
-
-                {/* CARD NUMBER */}
-                <input
-                  className="input border border-white/40 focus:border-amber-500"
-                  placeholder="1234 5678 9012 3456"
-                  maxLength={19}
-                  onChange={(e) => {
-                    let value = e.target.value.replace(/\D/g, "");
-                    value = value.substring(0, 16);
-                    value = value.replace(/(.{4})/g, "$1 ").trim();
-                    e.target.value = value;
-                  }}
-                />
-
-                {/* EXPIRY + CVV */}
-                <div className="grid grid-cols-2 gap-4">
-                  <input
-                    className="input border border-white/40 focus:border-amber-500"
-                    placeholder="MM/YY"
-                    maxLength={5}
-                    onChange={(e) => {
-                      let value = e.target.value.replace(/\D/g, "");
-                      if (value.length >= 3) {
-                        value = value.slice(0, 2) + "/" + value.slice(2, 4);
-                      }
-                      e.target.value = value;
-                    }}
-                  />
-
-                  <input
-                    className="input border border-white/40 focus:border-amber-500"
-                    placeholder="CVV"
-                    maxLength={3}
-                    onChange={(e) => {
-                      e.target.value = e.target.value
-                        .replace(/\D/g, "")
-                        .slice(0, 3);
-                    }}
-                  />
-                </div>
-
-                {/* CARD HOLDER NAME */}
-                <input
-                  className="input border border-white/40 focus:border-amber-500"
-                  placeholder="Card Holder Name"
-                />
-              </div>
-            )}
-
-            {/* NET BANKING */}
-            {method === "netbank" && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {["sbi", "hdfc", "icici", "axis", "kotak"].map((bank) => (
-                  <div
-                    key={bank}
-                    className="bg-white/10 border border-white/30 rounded-xl p-4 flex flex-col items-center hover:bg-white/20 cursor-pointer"
-                  >
-                    <img
-                      src={`https://img.icons8.com/color/96/${bank}.png`}
-                      className="h-10"
-                    />
-                    <p className="text-sm mt-2 uppercase">{bank}</p>
-                  </div>
-                ))}
-              </div>
+              <input
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/30 focus:border-amber-500 outline-none"
+                placeholder="example@upi"
+                value={upiId}
+                onChange={(e) => setUpiId(e.target.value)}
+              />
             )}
           </div>
         </div>

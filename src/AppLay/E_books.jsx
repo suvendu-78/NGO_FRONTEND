@@ -34,8 +34,17 @@ const E_Book = () => {
   /* ======================
      LOAD PURCHASED BOOKS
   ====================== */
+  // useEffect(() => {
+  //   const saved = JSON.parse(localStorage.getItem("myEbooks")) || [];
+  //   setPurchasedBooks(saved);
+  // }, []);
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("myEbooks")) || [];
+    const email = localStorage.getItem("currentUserEmail");
+
+    if (!email) return;
+
+    const saved = JSON.parse(localStorage.getItem(`myEbooks_${email}`)) || [];
+
     setPurchasedBooks(saved);
   }, []);
 
@@ -43,7 +52,7 @@ const E_Book = () => {
      SEARCH FILTER
   ====================== */
   const filteredBooks = books.filter((book) =>
-    book.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    book.title?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   /* ======================
@@ -51,7 +60,7 @@ const E_Book = () => {
   ====================== */
   const addToCart = (book) => {
     setCart((prev) =>
-      prev.find((b) => b._id === book._id) ? prev : [...prev, book]
+      prev.find((b) => b._id === book._id) ? prev : [...prev, book],
     );
   };
 
@@ -74,7 +83,6 @@ const E_Book = () => {
 
   return (
     <div className="min-h-screen bg-[#fdf6ef]">
-
       {/* HEADER */}
       <div className="bg-amber-900 text-white py-8 text-center">
         <div className="flex justify-center items-center gap-3">
@@ -117,9 +125,7 @@ const E_Book = () => {
 
         {!loading &&
           filteredBooks.map((book) => {
-            const isOwned = purchasedBooks.find(
-              (b) => b._id === book._id
-            );
+            const isOwned = purchasedBooks.find((b) => b._id === book._id);
 
             return (
               <div

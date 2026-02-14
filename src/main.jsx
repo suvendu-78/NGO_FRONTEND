@@ -21,18 +21,19 @@ import AdminBooks from "./AppLay/Admin/UploadBook.jsx";
 // import CartPage from "./AppLay/user/CartPage.jsx";
 // import BookReader from "./AppLay/user/BookReader.jsx";
 import UserDashboard from "./AppLay/user/UserDashboard.jsx";
-import { ClerkProvider } from "@clerk/clerk-react";
+// import { ClerkProvider } from "@clerk/clerk-react";
 import Books from "./AppLay/Books.jsx";
 import Payment from "./AppLay/Payment.jsx";
 import BooksPayment from "./AppLay/BooksPayment.jsx";
 import PaymentSuccess from "./AppLay/PaymentSuccess.jsx";
 
-import AdminOrders from "./AppLay/Admin/UploadBook.jsx"
+import AdminOrders from "./AppLay/Admin/AdminDashboard.jsx";
 import TermsAndConditions from "./AppLay/TermsAndConditions.jsx";
 import BookReader from "./AppLay/bookreder.jsx";
 import OrderHistory from "./AppLay/OrderHistory.jsx";
+import Adminlog from "./AppLay/Admin/Addminlog.jsx";
+import PaymentSuccessbook from "./AppLay/paymentsuccessbook.jsx";
 
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const Root = createBrowserRouter([
   {
     path: "/",
@@ -52,7 +53,7 @@ const Root = createBrowserRouter([
       },
       {
         path: "/books",
-        element: <Books/>,
+        element: <Books />,
       },
       {
         path: "/feedback",
@@ -79,7 +80,7 @@ const Root = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/adminlogin/*",
+        path: "/adminlogin",
         element: <AdminLogin />,
       },
       {
@@ -88,25 +89,25 @@ const Root = createBrowserRouter([
       },
       {
         path: "/payment",
-        element: <Payment/>,
+        element: <Payment />,
       },
-       {
+      {
         path: "/books-payment",
-        element: <BooksPayment/>,
+        element: <BooksPayment />,
       },
 
       {
         path: "/success",
-        element: <PaymentSuccess/>,
+        element: <PaymentSuccess />,
       },
 
       {
         path: "/terms-and-conditions",
-        element: <TermsAndConditions/>,
+        element: <TermsAndConditions />,
       },
       {
         path: "/order",
-        element: <OrderHistory/>,
+        element: <OrderHistory />,
       },
       // {
       //   path: "/cart-checkout",
@@ -125,21 +126,27 @@ const Root = createBrowserRouter([
         element: <UserDashboard />,
       },
       {
-      path:"/adminOrders",
-      element:<AdminOrders/>
-      },{
-      path:"/book-reader",
-      element:<BookReader/>
-      }
+        path: "/adminOrders",
+        element: <AdminOrders />,
+      },
+      {
+        path: "/book-reader",
+        element: <BookReader />,
+      },
+      {
+        path: "/adminlog ",
+        element: <Adminlog />,
+      },
+      {
+        path: "/paymentSuccessbook",
+        element: <PaymentSuccessbook />,
+      },
     ],
   },
 ]);
 
 createRoot(document.querySelector("#root")).render(
   <StrictMode>
-    <ClerkProvider publishableKey={clerkPubKey}>
-      <RouterProvider router={Root} />
-    </ClerkProvider>
-    ,
+    <RouterProvider router={Root} />,
   </StrictMode>,
 );

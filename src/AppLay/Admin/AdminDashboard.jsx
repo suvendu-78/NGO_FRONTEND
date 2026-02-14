@@ -4,7 +4,7 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/admin/orders", {
+    fetch("http://localhost:8000/api/v1/user/admin/orders", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -14,7 +14,7 @@ const AdminOrders = () => {
   }, []);
 
   const updateStatus = async (orderId, status) => {
-    await fetch(`http://localhost:5000/api/admin/order/${orderId}`, {
+    await fetch(`http://localhost:8000/api/admin/order/${orderId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

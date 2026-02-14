@@ -1,16 +1,16 @@
-import { useUser } from "@clerk/clerk-react";
-import { Navigate } from "react-router-dom";
+// import { useUser } from "@clerk/clerk-react";
+// import { Navigate } from "react-router-dom";
 
-const AdminGuard = ({ children }) => {
-  const { user, isLoaded } = useUser();
+// const AdminGuard = ({ children }) => {
+//   const { user, isLoaded } = useUser();
 
-  if (!isLoaded) return null;
+//   if (!isLoaded) return null;
 
-  if (user?.publicMetadata?.role !== "admin") {
-    return <Navigate to="/" replace />;
-  }
+//   if (user?.publicMetadata?.role !== "admin") {
+//     return <Navigate to="/" replace />;
+//   }
 
-  return children;
-};
+//   return children;
+// };
 
-export default AdminGuard;
+// export default AdminGuard;
