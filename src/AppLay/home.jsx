@@ -331,10 +331,6 @@
 
 // export default Home;
 
-
-
-
-
 // import { NavLink, useNavigate } from "react-router-dom";
 // import { useState, useEffect } from "react";
 // import odisha from "../assets/odisha.jpeg";
@@ -463,8 +459,6 @@
 // };
 
 // export default Home;
-
-
 
 // import { NavLink, useNavigate } from "react-router-dom";
 // import { useState, useEffect } from "react";
@@ -669,7 +663,6 @@
 // };
 
 // export default Home;
-
 
 // import { NavLink, useNavigate } from "react-router-dom";
 // import { useState, useEffect } from "react";
@@ -936,10 +929,6 @@
 
 // export default Home;
 
-
-
-
-
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import odisha from "../assets/odisha.jpeg";
@@ -947,6 +936,10 @@ import writer from "../assets/writer.png";
 import bgthim from "../assets/bgthim.png";
 import { motion } from "framer-motion";
 import Register from "./user/Register.jsx";
+import upcomigevents from "../assets/upcomingevents.png";
+import ebook from "../assets/ebook.png";
+import magazine from "../assets/magazine.png";
+import samyogee from "../assets/samyogee.jpeg";
 
 const Home = () => {
   const [showRegister, setShowRegister] = useState(true);
@@ -962,21 +955,25 @@ const Home = () => {
       title: "Our Upcoming Events",
       desc: "Stay updated on our latest literary events and workshops.",
       link: "/event",
+      img: upcomigevents,
     },
     {
       title: "Are you a writer?",
       desc: "Publish your book with us and reach dedicated readers.",
       link: "/contact",
+      img: writer,
     },
     {
       title: "Discover Digital Books",
       desc: "Explore a curated collection of digital books by emerging and established authors.",
       link: "/e_book",
+      img: ebook,
     },
     {
       title: "Explore Our Magazine",
       desc: "Where words find their voice. Discover our literary magazine.",
       link: "/magazin",
+      img: magazine,
     },
   ];
 
@@ -1029,13 +1026,12 @@ const Home = () => {
               <h1 className="text-4xl font-bold text-[#fdf7ef] mb-4 leading-snug">
                 ସ୍ଵର ଓଡିଆ ସାହିତ୍ୟର <br />
                 Empowering Literature <br />
-                <span className="text-[#f7dca1]">
-                  One Voice at a Time
-                </span>
+                <span className="text-[#f7dca1]">One Voice at a Time</span>
               </h1>
 
               <p className="text-[#f1e6d2] mb-8 max-w-lg">
-                Discover events, original books, and voices from our literary community.
+                Discover events, original books, and voices from our literary
+                community.
               </p>
 
               <div className="flex gap-4">
@@ -1056,7 +1052,7 @@ const Home = () => {
             </div>
 
             <img
-              src={odisha}
+              src={samyogee}
               alt="Odia Heritage"
               className="rounded-xl border-4 border-[#c9a24d] shadow-xl"
             />
@@ -1085,8 +1081,8 @@ const Home = () => {
                 >
                   <div className="w-full md:w-[40%]">
                     <img
-                      src={writer}
-                      alt=""
+                      src={item.img}
+                      alt={item.title}
                       className="w-full h-[260px] object-cover rounded-2xl"
                     />
                   </div>
@@ -1172,12 +1168,8 @@ const Home = () => {
 
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold">
-                ଆମ ସହଯୋଗୀ
-              </h2>
-              <p className="mt-2 text-lg opacity-90">
-                Our Sponsors
-              </p>
+              <h2 className="text-3xl md:text-4xl font-bold">ଆମ ସହଯୋଗୀ</h2>
+              <p className="mt-2 text-lg opacity-90">Our Sponsors</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
