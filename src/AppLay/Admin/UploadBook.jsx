@@ -5,12 +5,13 @@ const AdminBooks = () => {
   // ======================
   // STATES
   // ======================
+
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [imei, setImei] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [pdfFile, setPdfFile] = useState(null);
+
   const [imageFile, setImageFile] = useState(null);
 
   const [loading, setLoading] = useState(false);
@@ -20,32 +21,30 @@ const AdminBooks = () => {
   const navigate = useNavigate();
 
   // ======================
-  // FILE HANDLERS
+  // FILE HANDLER
   // ======================
-  const handlePdf = (e) => {
-    const file = e.target.files[0];
-
-    if (file) setPdfFile(file);
-  };
 
   const handleImage = (e) => {
     const file = e.target.files[0];
 
-    if (file) setImageFile(file);
+    if (file) {
+      setImageFile(file);
+    }
   };
 
   // ======================
-  // SUBMIT
+  // SUBMIT HANDLER
   // ======================
+
   const Handller = async (e) => {
     e.preventDefault();
 
     setMessage("");
 
-    if (!title || !author || !imei || !description || !price || !pdfFile) {
+    if (!title || !author || !imei || !description || !price) {
       setIsError(true);
 
-      setMessage("All fields including Author & IMEI are required");
+      setMessage("All fields are required ❌");
 
       return;
     }
@@ -53,13 +52,13 @@ const AdminBooks = () => {
     try {
       setLoading(true);
 
-      // ✅ GET TOKEN FROM LOCALSTORAGE
+      // GET TOKEN
       const token = localStorage.getItem("token");
-      console.log(token);
+
       if (!token) {
         setIsError(true);
 
-        setMessage("Admin not logged in. Please login first ❌");
+        setMessage("Admin not logged in ❌");
 
         navigate("/adminlogin");
 
@@ -69,6 +68,7 @@ const AdminBooks = () => {
       // ======================
       // FORM DATA
       // ======================
+
       const formData = new FormData();
 
       formData.append("title", title);
@@ -76,23 +76,24 @@ const AdminBooks = () => {
       formData.append("imei", imei);
       formData.append("description", description);
       formData.append("price", price);
-      formData.append("pdf", pdfFile);
+
+      formData.append("type", "book"); // ✅ REQUIRED FIX
 
       if (imageFile) {
         formData.append("image", imageFile);
       }
 
       // ======================
-      // API CALL WITH TOKEN
+      // API CALL
       // ======================
+
       const res = await fetch(
         "http://localhost:8000/api/v1/user/admin/upload-book",
-
         {
           method: "POST",
 
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ TOKEN ADDED
+            Authorization: `Bearer ${token}`,
           },
 
           body: formData,
@@ -103,29 +104,32 @@ const AdminBooks = () => {
 
       console.log("Response:", data);
 
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
 
       // ======================
       // SUCCESS
       // ======================
+
       setIsError(false);
 
-      setMessage("Book uploaded successfully ✅");
+      setMessage("Physical Book Uploaded Successfully ✅");
 
-      // reset form
+      // RESET FORM
+
       setTitle("");
       setAuthor("");
       setImei("");
       setDescription("");
       setPrice("");
-      setPdfFile(null);
       setImageFile(null);
     } catch (err) {
       console.error(err);
 
       setIsError(true);
 
-      setMessage(err.message || "Upload failed ❌");
+      setMessage(err.message || "Upload Failed ❌");
     } finally {
       setLoading(false);
     }
@@ -134,6 +138,7 @@ const AdminBooks = () => {
   // ======================
   // UI
   // ======================
+
   return (
     <div className="min-h-screen bg-[#f4efe9] flex items-center justify-center px-4">
       <form
@@ -141,10 +146,11 @@ const AdminBooks = () => {
         className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8"
       >
         <h2 className="text-3xl font-bold text-center text-[#6b2c1a] mb-8">
-          Add New Book
+          Add New Physical Book
         </h2>
 
         {/* TITLE */}
+
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -153,6 +159,7 @@ const AdminBooks = () => {
         />
 
         {/* AUTHOR */}
+
         <input
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
@@ -161,6 +168,7 @@ const AdminBooks = () => {
         />
 
         {/* IMEI */}
+
         <input
           value={imei}
           onChange={(e) => setImei(e.target.value)}
@@ -169,6 +177,7 @@ const AdminBooks = () => {
         />
 
         {/* DESCRIPTION */}
+
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -177,6 +186,7 @@ const AdminBooks = () => {
         />
 
         {/* PRICE */}
+
         <input
           type="number"
           value={price}
@@ -185,30 +195,23 @@ const AdminBooks = () => {
           className="w-full mb-4 px-4 py-3 border rounded-lg"
         />
 
-        {/* PDF Upload */}
-        <label className="block mb-4 cursor-pointer">
-          <input
-            type="file"
-            accept="application/pdf"
-            hidden
-            onChange={handlePdf}
-          />
+        {/* IMAGE UPLOAD */}
 
-          <div className="border-2 border-dashed border-[#7a2e1f] p-6 text-center rounded-xl">
-            Upload PDF {pdfFile && `: ${pdfFile.name}`}
-          </div>
-        </label>
-
-        {/* IMAGE Upload */}
         <label className="block mb-6 cursor-pointer">
           <input type="file" accept="image/*" hidden onChange={handleImage} />
 
           <div className="border-2 border-dashed border-gray-400 p-6 text-center rounded-xl">
-            Upload Cover Image (optional) {imageFile && `: ${imageFile.name}`}
+            Upload Cover Image (optional)
+            {imageFile && (
+              <div className="text-sm mt-2 text-green-700">
+                {imageFile.name}
+              </div>
+            )}
           </div>
         </label>
 
         {/* MESSAGE */}
+
         {message && (
           <div
             className={`mb-4 text-center font-semibold ${
@@ -220,18 +223,20 @@ const AdminBooks = () => {
         )}
 
         {/* SUBMIT */}
+
         <button
           type="submit"
           disabled={loading}
           className="w-full bg-[#7a2e1f] text-white py-3 rounded-full hover:bg-[#5c2115]"
         >
-          {loading ? "Uploading..." : "Save Book"}
+          {loading ? "Uploading..." : "Save Physical Book"}
         </button>
 
-        {/* DASHBOARD LINK */}
-        <NavLink to="/adminOrders">
-          <p className="text-red-500 text-center mt-4 hover:underline">
-            Go to Dashboard
+        {/* NAVIGATION */}
+
+        <NavLink to="/UploadEbook">
+          <p className="text-blue-600 text-center mt-4 hover:underline">
+            Upload Ebook Instead
           </p>
         </NavLink>
       </form>

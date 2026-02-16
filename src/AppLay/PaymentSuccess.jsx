@@ -81,20 +81,69 @@ const PaymentSuccess = () => {
   // ===============================
   // HANDLE PAYMENT CLICK
   // ===============================
-  const handlePayment = () => {
-    if (cart.length === 0) {
-      alert("Cart is empty");
-      return;
-    }
+const handlePayment = async () => {
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
 
+  const token = localStorage.getItem("token");
+
+  try {
     setLoading(true);
 
-    // simulate payment delay
-    setTimeout(() => {
-      setLoading(false);
-      handlePaymentSuccess();
-    }, 1500);
-  };
+    // 1️⃣ Create Razorpay order from backend
+    const response = await fetch(
+      "http://localhost:8000/api/v1/user/payment/create-order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ amount: totalAmount }),
+      }
+    );
+
+    const order = await response.json();
+
+    if (!response.ok) {
+      throw new Error(order.message || "Failed to create payment order");
+    }
+
+    // 2️⃣ Razorpay options
+    const options = {
+      key: import.meta.env.VITE_Test_API_Key,
+      amount: order.amount,
+      currency: "INR",
+      name: "Samyogee Sahitya Samsad Book Store",
+      description: "E-Book Purchase",
+      order_id: order.id,
+
+      handler: function (response) {
+        // Payment successful
+        setLoading(false);
+        handlePaymentSuccess();
+      },
+
+      prefill: {
+        email: localStorage.getItem("currentUserEmail") || "",
+      },
+
+      theme: {
+        color: "#16a34a",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
+  } catch (error) {
+    setLoading(false);
+    alert(error.message || "Payment failed");
+  }
+};
+
 
   // ===============================
   // UI

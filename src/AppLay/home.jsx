@@ -931,7 +931,7 @@
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import odisha from "../assets/odisha.jpeg";
+// import odisha from "../assets/odisha.jpeg";
 import writer from "../assets/writer.png";
 import bgthim from "../assets/bgthim.png";
 import { motion } from "framer-motion";
@@ -940,6 +940,21 @@ import upcomigevents from "../assets/upcomingevents.png";
 import ebook from "../assets/ebook.png";
 import magazine from "../assets/magazine.png";
 import samyogee from "../assets/samyogee.jpeg";
+import upendradash from "../assets/upendradash.jpeg";
+// import bgthim from "../assets/bgthim.png";
+import babulalpalei from "../assets/babulalpalei.jpeg";
+import lishanmohanty from "../assets/lishanmohanty.jpeg";
+import santoshpati from "../assets/santoshpati.jpeg";
+import tapandash from "../assets/tapandash.jpeg";
+import santunu from "../assets/santunu.jpeg";
+import smita from "../assets/smita.jpeg";
+import minabehera from "../assets/minabehera.jpeg";
+import sujatagupta from "../assets/sujatagupta.jpeg";
+import hrusikesha from "../assets/hrusikesha.jpeg";
+import arjun from "../assets/arjun.jpeg";
+import bidya from "../assets/bidya.jpeg";
+import kailash from "../assets/kailash.jpeg";
+import saroj from "../assets/saroj.jpeg";
 
 const Home = () => {
   const [showRegister, setShowRegister] = useState(true);
@@ -985,11 +1000,23 @@ const Home = () => {
   ];
 
   const familyMembers = [
-    "Amit Sharma",
-    "Priya Desai",
-    "Rahul Kapoor",
-    "Amir Dali",
-  ];
+  { name: "ଉପେନ୍ଦ୍ର ଦାଶ", image: upendradash },
+  { name: "ବବୁଲାଲ ପଲେଇ", image: babulalpalei },
+  { name: "ଡା.ଲିସନ ମହାନ୍ତି", image: lishanmohanty },
+  { name: "ସନ୍ତୋଷ କୁମାର ପତି", image: santoshpati },
+  { name: "ତପନ କୁମାର ଦାଶ", image: tapandash },
+  { name: "ଶାନ୍ତନୁ କୁମାର ମହାପାତ୍ର", image: santunu },
+  { name: "ସ୍ମିତାରାଣୀ ରାଉତ", image: smita },
+  { name: "ମିନା ବେହେରା", image: minabehera },
+  { name: "ସୁଜାତା ଗୁପ୍ତା", image: sujatagupta },
+  { name: "ହୃଷୀକେଶ ଦାଶ", image: hrusikesha },
+  { name: "ଜ୍ୟୋତ୍ସ୍ନାରାଣୀ ଦାଶ", image: bgthim },
+  { name: "ଅର୍ଜୁନ ଚରଣ ବେହେରା", image: arjun },
+  { name: "ବିଦ୍ଯାଭାରତି ପଲେଇ", image: bidya },
+  { name: "କୈଳାସ ଚନ୍ଦ୍ର ତନ୍ତୀ", image: kailash },
+  { name: "ସରୋଜ କୁମାର ସେନାପତି", image: saroj },
+];
+
 
   const reviews = [
     {
@@ -1114,17 +1141,17 @@ const Home = () => {
 
           <div className="scroll-container">
             <div className="scroll-track gap-8 px-6">
-              {[...familyMembers, ...familyMembers].map((name, i) => (
+              {[...familyMembers, ...familyMembers].map((member, i) => (
                 <div
                   key={i}
                   className="min-w-[260px] bg-[#fdf7ef] border border-[#d6b97b] rounded-lg text-center p-6 shadow"
                 >
                   <img
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    src={member.image}
                     className="w-24 h-24 mx-auto rounded-full border-4 border-[#c9a24d] mb-4"
-                    alt=""
+                    alt={member.name}
                   />
-                  <h3 className="font-semibold">{name}</h3>
+                  <h3 className="font-semibold">{member.name}</h3>
                   <NavLink
                     to="/books"
                     className="text-[#7a2e1f] hover:underline text-sm"

@@ -33,6 +33,7 @@ import BookReader from "./AppLay/bookreder.jsx";
 import OrderHistory from "./AppLay/OrderHistory.jsx";
 import Adminlog from "./AppLay/Admin/Addminlog.jsx";
 import PaymentSuccessbook from "./AppLay/paymentsuccessbook.jsx";
+import UploadEbook from "./AppLay/Admin/Ebookupload.jsx";
 
 const Root = createBrowserRouter([
   {
@@ -141,6 +142,11 @@ const Root = createBrowserRouter([
         path: "/paymentSuccessbook",
         element: <PaymentSuccessbook />,
       },
+      {
+        path: "/UploadEbook",
+        element:<UploadEbook/>
+      },
+      
     ],
   },
 ]);

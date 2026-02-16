@@ -16,7 +16,7 @@ const Books = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/v1/user/books")
+    fetch("http://localhost:8000/api/v1/user/physical-books")
       .then((res) => res.json())
       .then((data) => {
         setBookss(data.books || []);

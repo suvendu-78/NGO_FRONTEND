@@ -19,7 +19,7 @@ const E_Book = () => {
      FETCH BOOKS
   ====================== */
   useEffect(() => {
-    fetch("http://localhost:8000/api/v1/user/books")
+    fetch("http://localhost:8000/api/v1/user/ebooks")
       .then((res) => res.json())
       .then((data) => {
         setBooks(data.books || []);
@@ -134,9 +134,17 @@ const E_Book = () => {
               >
                 {/* IMAGE */}
                 <div className="relative h-56 w-full overflow-hidden">
-                  <img
+                  {/* <img
                     src={
                       book.coverImage ||
+                      "https://via.placeholder.com/300x400?text=E-Book"
+                    }
+                    alt={book.title}
+                    className="w-full h-full object-cover hover:scale-105 transition duration-300"
+                  /> */}
+                  <img
+                    src={
+                      book.imageUrl ||
                       "https://via.placeholder.com/300x400?text=E-Book"
                     }
                     alt={book.title}
