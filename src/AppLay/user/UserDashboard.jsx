@@ -60,6 +60,7 @@ const UserDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("currentUserEmail");
+    localStorage.removeItem("registered");
 
     setPurchasedBooks([]);
     setPurchases([]);

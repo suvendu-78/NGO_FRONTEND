@@ -34,6 +34,8 @@ import OrderHistory from "./AppLay/OrderHistory.jsx";
 import Adminlog from "./AppLay/Admin/Addminlog.jsx";
 import PaymentSuccessbook from "./AppLay/paymentsuccessbook.jsx";
 import UploadEbook from "./AppLay/Admin/Ebookupload.jsx";
+import RefundPolicy from "./AppLay/refundPolicy.jsx";
+import PrivacyPolicy from "./AppLay/privacyPolicy.jsx";
 
 const Root = createBrowserRouter([
   {
@@ -109,6 +111,14 @@ const Root = createBrowserRouter([
       {
         path: "/order",
         element: <OrderHistory />,
+      },
+      {
+        path: "/RefundPolicy",
+        element: <RefundPolicy/>,
+      },
+      {
+        path: "/privacypolicy",
+        element: <PrivacyPolicy/>,
       },
       // {
       //   path: "/cart-checkout",

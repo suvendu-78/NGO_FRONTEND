@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin } from "lucide-react";
-
+import { FaWhatsapp, FaFacebook, FaYoutube } from "react-icons/fa";
 const Contact = () => {
   return (
     <>
@@ -30,33 +30,33 @@ const Contact = () => {
                 <div className="flex items-start gap-4">
                   <MapPin className="text-[#c9a24d]" />
                   <p>
-                    Plot No. 123, Literary Street, Bhubaneswar, Odisha – 751001
+                    Plot No:50/2867,Ghatagaon,Keonjhar,Odisha,758027
                   </p>
                 </div>
 
                 <div className="flex items-center gap-4">
                   <Phone className="text-[#c9a24d]" />
-                  <p>+91 98765 43210</p>
+                  <p>+917439058125</p>
                 </div>
 
                 <div className="flex items-center gap-4">
                   <Mail className="text-[#c9a24d]" />
-                  <p>contact@odiasahitya.org</p>
+                  <p>dr.lishanpt@gmail.com</p>
                 </div>
               </div>
 
               <div className="mt-10">
                 <h3 className="font-semibold mb-3 text-[#f7dca1]">Follow Us</h3>
                 <div className="flex gap-4 text-sm">
-                  <span className="cursor-pointer hover:text-[#c9a24d]">
-                    Facebook
-                  </span>
-                  <span className="cursor-pointer hover:text-[#c9a24d]">
-                    Instagram
-                  </span>
-                  <span className="cursor-pointer hover:text-[#c9a24d]">
-                    Twitter
-                  </span>
+                  <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+                                 <FaWhatsapp size={26} />
+                               </a>
+                               <a href="https://www.facebook.com/share/1CXPLBiYkP/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+                                 <FaFacebook size={26} />
+                               </a>
+                               <a href="https://youtube.com/@sanjogi_sajafula?si=IT-dR6YyKZbic5qA" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+                                 <FaYoutube size={28} />
+                               </a>
                 </div>
               </div>
             </div>

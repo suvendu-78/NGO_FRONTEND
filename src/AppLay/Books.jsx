@@ -110,6 +110,12 @@ const Books = () => {
                   Terms & Conditions
                 </div>
               </NavLink>
+
+              <NavLink to="/RefundPolicy" onClick={() => setShowMenu(false)}>
+                <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+                  Refund Policy
+                </div>
+              </NavLink>
             </nav>
           </aside>
         </div>
@@ -143,6 +149,12 @@ const Books = () => {
           <NavLink to="/terms-and-conditions">
             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
               Terms & Conditions
+            </div>
+          </NavLink>
+
+          <NavLink to="/RefundPolicy">
+            <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+              RefundPolicy
             </div>
           </NavLink>
         </nav>

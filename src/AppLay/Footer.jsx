@@ -135,12 +135,13 @@ const Foot = () => {
             <NavLink to="/e_book" className={linkClass}>E-Books</NavLink><br />
             <NavLink to="/authors" className={linkClass}>All Authors</NavLink><br />
             <NavLink to="/feedback" className={linkClass}>Feedback</NavLink>
+            <NavLink to="/privacypolicy" className={linkClass}>Privacy Policy</NavLink>
           </div>
 
           {/* CONTACT */}
           <div>
             <h3 className="font-semibold mb-4">Contact</h3>
-            <p>Email: info@literaturengo.org</p>
+            <p>Email:dr.lishanpt@gmail.com</p>
           </div>
 
           {/* FOLLOW US */}
