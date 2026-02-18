@@ -55,7 +55,7 @@ const Register = () => {
       }
 
       setSuccess("Registered successfully 🎉");
-      navigate("/");
+      navigate("/login");
       setForm({
         fullName: "",
         Email: "",
