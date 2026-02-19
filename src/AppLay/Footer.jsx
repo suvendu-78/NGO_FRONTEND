@@ -134,14 +134,14 @@ const Foot = () => {
             <NavLink to="/books" className={linkClass}>Books</NavLink><br />
             <NavLink to="/e_book" className={linkClass}>E-Books</NavLink><br />
             <NavLink to="/authors" className={linkClass}>All Authors</NavLink><br />
-            <NavLink to="/feedback" className={linkClass}>Feedback</NavLink>
+            <NavLink to="/feedback" className={linkClass}>Feedback</NavLink><br />
             <NavLink to="/privacypolicy" className={linkClass}>Privacy Policy</NavLink>
           </div>
 
           {/* CONTACT */}
           <div>
             <h3 className="font-semibold mb-4">Contact</h3>
-            <p>Email:dr.lishanpt@gmail.com</p>
+            <p>Email:ssahityasamsad@gmail.com</p>
           </div>
 
           {/* FOLLOW US */}

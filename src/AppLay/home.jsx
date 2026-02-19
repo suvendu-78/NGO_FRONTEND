@@ -5,9 +5,9 @@ import writer from "../assets/writer.png";
 import bgthim from "../assets/bgthim.png";
 import { motion } from "framer-motion";
 import Register from "./user/Register.jsx";
-import upcomigevents from "../assets/upcomingevents.png";
+import events from "../assets/events.png";
 import ebook from "../assets/ebook.png";
-import magazine from "../assets/magazine.png";
+import magazineexplore from "../assets/magazineexplore.png";
 import samyogee from "../assets/samyogee.jpeg";
 import upendradash from "../assets/upendradash.jpeg";
 // import bgthim from "../assets/bgthim.png";
@@ -51,7 +51,7 @@ const Home = () => {
       title: "Our Upcoming Events",
       desc: "Stay updated on our latest literary events and workshops.",
       link: "/event",
-      img: upcomigevents,
+      img: events,
     },
     {
       title: "Are you a writer?",
@@ -69,7 +69,7 @@ const Home = () => {
       title: "Explore Our Magazine",
       desc: "Where words find their voice. Discover our literary magazine.",
       link: "/magazin",
-      img: magazine,
+      img: magazineexplore,
     },
   ];
 

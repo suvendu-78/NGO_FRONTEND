@@ -85,7 +85,7 @@ const RefundPolicy = () => {
         <h2 className="text-xl font-semibold mt-6 mb-2">
           7. Contact Information
         </h2>
-        <p className="mb-2"> Email: dr.lishanpt@gmail.com</p>
+        <p className="mb-2"> Email:ssahityasamsad@gmail.com</p>
         <p className="mb-2"> Organization: Samyogee Sahitya Sansad</p>
         <p className="mb-8"> Location:Ghatagaon, Odisha, India</p>
 

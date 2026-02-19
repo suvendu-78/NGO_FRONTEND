@@ -209,7 +209,7 @@ const Books = () => {
 
               <h4 className="font-semibold">Name:{book.title}</h4>
               <p className="text-sm text-gray-500">Author:{book.author}</p>
-              <p className="text-xs text-gray-400">IMEI:{book.imei}</p>
+              <p className="text-xs text-gray-400">ISBM:{book.imei}</p>
               <p className="text-xs text-gray-400">About:{book.description}</p>
               <div className="flex justify-between items-center mt-3">
                 <span className="font-bold text-[#7a2e1f]">₹{book.price}</span>

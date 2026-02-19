@@ -172,7 +172,7 @@ const AdminBooks = () => {
         <input
           value={imei}
           onChange={(e) => setImei(e.target.value)}
-          placeholder="IMEI Number"
+          placeholder="ISBN Number"
           className="w-full mb-3 px-4 py-3 border rounded-lg"
         />
 

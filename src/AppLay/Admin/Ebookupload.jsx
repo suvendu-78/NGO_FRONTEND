@@ -166,7 +166,7 @@ const UploadEbook = () => {
         <input
           value={form.imei}
           onChange={(e) => setForm({ ...form, imei: e.target.value })}
-          placeholder="IMEI Number"
+          placeholder="ISBM Number"
           className="w-full mb-4 p-4 rounded-lg border border-gray-400 bg-transparent outline-none focus:border-[#7a2d1b]"
         />
 

@@ -136,8 +136,8 @@ const PrivacyPolicy = () => {
           contact us at:
         </p>
 
-        <p className="mb-1">📧 Email:dr.lishanpt@gmail.com</p>
-        <p className="mb-1">🏢 Samyogee Sahitya Sansad</p>
+        <p className="mb-1">Email:ssahityasamsad@gmail.com</p>
+        <p className="mb-1">Samyogee Sahitya Sansad</p>
         <p className="mb-1">Gatagaon, Odisha, India</p>
 
         <p className="mt-6 text-sm text-gray-500">
