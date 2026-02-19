@@ -22,7 +22,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/user/login",
+        "https://backend-ngo-gss9.onrender.com/api/v1/user/login",
         Info,
       );
 

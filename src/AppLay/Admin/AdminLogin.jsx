@@ -60,7 +60,7 @@ const AdminLogin = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:8000/api/v1/user/adminregister",
+        "https://backend-ngo-gss9.onrender.com/api/v1/user/adminregister",
         {
           method: "POST",
           headers: {

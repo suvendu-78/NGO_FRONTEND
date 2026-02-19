@@ -76,7 +76,7 @@ const BooksPayment = () => {
 
     try {
       const orderRes = await fetch(
-        "http://localhost:8000/api/v1/user/payment/create-order",
+        "https://backend-ngo-gss9.onrender.com/api/v1/user/payment/create-order",
         {
           method: "POST",
           headers: {
@@ -104,7 +104,7 @@ const BooksPayment = () => {
 
           try {
             const verifyRes = await fetch(
-              "http://localhost:8000/api/v1/user/order/create",
+              "https://backend-ngo-gss9.onrender.com/api/v1/user/order/create",
               {
                 method: "POST",
                 headers: {

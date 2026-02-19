@@ -17,7 +17,7 @@ const OrderHistory = () => {
         const token = localStorage.getItem("token");
 
         const res = await fetch(
-          "http://localhost:8000/api/v1/user/my-orders",
+          "https://backend-ngo-gss9.onrender.com/api/v1/user/my-orders",
           {
             headers: {
               Authorization: `Bearer ${token}`,
