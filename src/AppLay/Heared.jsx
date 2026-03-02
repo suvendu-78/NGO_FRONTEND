@@ -36,7 +36,7 @@ const Head = () => {
               ସଂଯୋଗୀ ସାହିତ୍ୟ ସଂସଦ
             </h1>
             <p className="text-[#fdf7ef] text-xs md:text-sm">
-              SAMYOGEE SAHITYA SANSAD
+              SAMYOGEE SAHITYA SAMSAD
             </p>
           </div>
         </div>
@@ -68,7 +68,7 @@ const Head = () => {
               <NavLink to="/books" className={menuItemClass}>
                 Books
               </NavLink>
-               <NavLink to="/E_Book" className={menuItemClass}>
+              <NavLink to="/E_Book" className={menuItemClass}>
                 E_Books
               </NavLink>
               <NavLink to="/authors" className={menuItemClass}>
