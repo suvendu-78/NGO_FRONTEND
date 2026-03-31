@@ -40,7 +40,7 @@ import PrivacyPolicy from "./AppLay/privacyPolicy.jsx";
 const Root = createBrowserRouter([
   {
     path: "/",
-    element: <AppLay />,
+    element: <AppLay/>,
     children: [
       {
         path: "/",
