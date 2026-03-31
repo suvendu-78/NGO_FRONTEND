@@ -91,7 +91,7 @@ const BooksPayment = () => {
       if (!orderRes.ok) throw new Error("Failed to create payment order");
 
       const options = {
-        key: import.meta.env.VITE_Test_API_Key,
+        key: import.meta.env.VITE_RAZORPAY_KEY,
         amount: orderData.amount,
         currency: "INR",
         name: "Samyogee Sahitya Samsad Book Store",

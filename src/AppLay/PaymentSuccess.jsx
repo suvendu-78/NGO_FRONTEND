@@ -113,7 +113,7 @@ const handlePayment = async () => {
 
     // 2️⃣ Razorpay options
     const options = {
-      key: import.meta.env.VITE_Test_API_Key,
+      key: import.meta.env.VITE_RAZORPAY_KEY,
       amount: order.amount,
       currency: "INR",
       name: "Samyogee Sahitya Samsad Book Store",
