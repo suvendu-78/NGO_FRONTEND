@@ -36,11 +36,13 @@ import PaymentSuccessbook from "./AppLay/paymentsuccessbook.jsx";
 import UploadEbook from "./AppLay/Admin/Ebookupload.jsx";
 import RefundPolicy from "./AppLay/refundPolicy.jsx";
 import PrivacyPolicy from "./AppLay/privacyPolicy.jsx";
+import Forget from "./AppLay/user/forgetpassword.jsx";
+import NewPass from "./AppLay/user/newpassword.jsx";
 
 const Root = createBrowserRouter([
   {
     path: "/",
-    element: <AppLay/>,
+    element: <AppLay />,
     children: [
       {
         path: "/",
@@ -114,11 +116,11 @@ const Root = createBrowserRouter([
       },
       {
         path: "/RefundPolicy",
-        element: <RefundPolicy/>,
+        element: <RefundPolicy />,
       },
       {
         path: "/privacypolicy",
-        element: <PrivacyPolicy/>,
+        element: <PrivacyPolicy />,
       },
       // {
       //   path: "/cart-checkout",
@@ -154,9 +156,16 @@ const Root = createBrowserRouter([
       },
       {
         path: "/UploadEbook",
-        element:<UploadEbook/>
+        element: <UploadEbook />,
       },
-      
+      {
+        path: "/forget",
+        element: <Forget />,
+      },
+      {
+        path: "/newPass",
+        element: <NewPass />,
+      },
     ],
   },
 ]);

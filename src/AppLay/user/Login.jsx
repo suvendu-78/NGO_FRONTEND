@@ -97,6 +97,13 @@ const Login = () => {
           <button className="w-full bg-[#c9a24d] py-3 rounded">Login</button>
 
           <p className="text-center">
+            ForgetPassword
+            <NavLink to="/forget" className="text-red-500 ml-1">
+              ForgetPassword
+            </NavLink>
+          </p>
+
+          <p className="text-center">
             New user?
             <NavLink to="/register" className="text-red-500 ml-1">
               Register
