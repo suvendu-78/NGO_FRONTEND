@@ -184,6 +184,11 @@ const AdminLogin = () => {
           >
             Register
           </button>
+          <NavLink to="/newPass">
+            <p className="text-s text-gray-500">
+              Forgot Password? <span className="text-red-400">Reset Here</span>
+            </p>
+          </NavLink>
           <NavLink to="/adminlog ">
             <p className="text-s text-gray-500">
               are you already register{" "}

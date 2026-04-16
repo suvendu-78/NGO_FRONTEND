@@ -1,3 +1,295 @@
+// import { Menu, Search, ShoppingCart, X } from "lucide-react";
+// import { useState, useEffect } from "react";
+// import { NavLink, useNavigate } from "react-router-dom";
+
+// const Books = () => {
+//   const navigate = useNavigate();
+
+//   const [search, setSearch] = useState("");
+//   const [filter, setFilter] = useState("All");
+//   const [bookss, setBookss] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const [cart, setCart] = useState([]);
+//   const [showCart, setShowCart] = useState(false);
+
+//   const [showMenu, setShowMenu] = useState(false);
+
+//   useEffect(() => {
+//     fetch("https://backend-ngo-gss9.onrender.com/api/v1/user/physical-books")
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setBookss(data.books || []);
+//         setLoading(false);
+//         // console.log(data);
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         setLoading(false);
+//       });
+//   }, []);
+
+//   const filteredBooks = bookss.filter((book) => {
+//     const matchesSearch =
+//       book.title?.toLowerCase().includes(search.toLowerCase()) ||
+//       book.author?.toLowerCase().includes(search.toLowerCase());
+
+//     const matchesFilter =
+//       filter === "All" || book.type?.toLowerCase() === filter.toLowerCase();
+
+//     return matchesSearch && matchesFilter;
+//   });
+
+//   const addToCart = (book) => {
+//     setCart((prev) =>
+//       prev.find((b) => b._id === book._id) ? prev : [...prev, book],
+//     );
+//   };
+
+//   const removeFromCart = (id) => {
+//     setCart(cart.filter((b) => b._id !== id));
+//   };
+
+//   console.log(cart);
+//   const handleCheckout = () => {
+//     if (cart.length === 0) {
+//       alert("Cart is empty");
+//       return;
+//     }
+
+//     navigate("/books-payment", { state: { cart } });
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-[#7a2e1f] flex relative">
+//       {/* MOBILE MENU BUTTON */}
+//       <button
+//         onClick={() => setShowMenu(true)}
+//         className="md:hidden fixed top-4 left-4 z-50 bg-[#7a2e1f] text-white p-3 rounded-lg"
+//       >
+//         <Menu />
+//       </button>
+
+//       {/* MOBILE SIDEBAR */}
+//       {showMenu && (
+//         <div className="fixed inset-0 bg-black/60 z-40 flex">
+//           <aside className="w-64 bg-[#f6e4d5] p-6">
+//             <div className="flex justify-between items-center mb-6">
+//               <h1 className="text-xl font-bold text-[#7a2e1f]">
+//                 Sahitya Store
+//               </h1>
+//               <button onClick={() => setShowMenu(false)}>
+//                 <X />
+//               </button>
+//             </div>
+
+//             <nav className="space-y-4 text-sm font-medium">
+//               <NavLink to="/user-dashboard" onClick={() => setShowMenu(false)}>
+//                 <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//                   Dashboard
+//                 </div>
+//               </NavLink>
+
+//               <NavLink to="/e_book" onClick={() => setShowMenu(false)}>
+//                 <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//                   Library
+//                 </div>
+//               </NavLink>
+
+//               <NavLink to="/order" onClick={() => setShowMenu(false)}>
+//                 <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//                   Order History
+//                 </div>
+//               </NavLink>
+
+//               <NavLink
+//                 to="/terms-and-conditions"
+//                 onClick={() => setShowMenu(false)}
+//               >
+//                 <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//                   Terms & Conditions
+//                 </div>
+//               </NavLink>
+
+//               <NavLink to="/RefundPolicy" onClick={() => setShowMenu(false)}>
+//                 <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//                   Refund Policy
+//                 </div>
+//               </NavLink>
+//             </nav>
+//           </aside>
+//         </div>
+//       )}
+
+//       {/* DESKTOP SIDEBAR */}
+//       <aside className="w-64 bg-[#f6e4d5] p-6 hidden md:block">
+//         <h1 className="text-2xl font-bold mb-8 text-[#7a2e1f]">
+//           Sahitya Store
+//         </h1>
+
+//         <nav className="space-y-4 text-sm font-medium">
+//           <NavLink to="/user-dashboard">
+//             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//               Dashboard
+//             </div>
+//           </NavLink>
+
+//           <NavLink to="/e_book">
+//             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//               Library
+//             </div>
+//           </NavLink>
+
+//           <NavLink to="/order">
+//             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//               Order History
+//             </div>
+//           </NavLink>
+
+//           <NavLink to="/terms-and-conditions">
+//             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//               Terms & Conditions
+//             </div>
+//           </NavLink>
+
+//           <NavLink to="/RefundPolicy">
+//             <div className="px-4 py-2 rounded-lg hover:bg-[#e9c6a8]">
+//               RefundPolicy
+//             </div>
+//           </NavLink>
+//         </nav>
+//       </aside>
+
+//       {/* MAIN CONTENT */}
+//       <main className="flex-1 bg-[#fdf6ef]  p-6">
+//         {/* SEARCH + FILTER */}
+//         <div className="flex flex-col md:flex-row gap-4 mb-6">
+//           <div className="relative w-full max-w-md">
+//             <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+//             <input
+//               value={search}
+//               onChange={(e) => setSearch(e.target.value)}
+//               className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#f6e4d5]"
+//               placeholder="Search by book or author..."
+//             />
+//           </div>
+
+//           {/* <select
+//             value={filter}
+//             onChange={(e) => setFilter(e.target.value)}
+//             className="px-4 py-2 rounded-xl bg-[#f6e4d5]"
+//           >
+//             <option value="All">All</option>
+//             <option value="Novel">Novel</option>
+//             <option value="Poetry">Poetry</option>
+//             <option value="Story">Story</option>
+//           </select> */}
+//         </div>
+
+//         <h3 className="font-bold text-lg mb-4">Best Popular</h3>
+
+//         {loading && (
+//           <p className="text-center text-gray-500 mt-10">Loading books...</p>
+//         )}
+
+//         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+//           {filteredBooks.map((book) => (
+//             <div
+//               key={book._id}
+//               className="bg-white rounded-xl p-4 shadow hover:scale-105 transition"
+//             >
+//               <img
+//                 src={
+//                   book.imageUrl ||
+//                   "https://via.placeholder.com/200x280?text=No+Image"
+//                 }
+//                 alt={book.title}
+//                 className="rounded-lg mb-3 h-40 w-full object-cover"
+//               />
+
+//               <h4 className="font-semibold">Name:{book.title}</h4>
+//               <p className="text-sm text-gray-500">Author:{book.author}</p>
+//               <p className="text-xs text-gray-400">ISBM:{book.imei}</p>
+//               <p className="text-xs text-gray-400">About:{book.description}</p>
+//               <div className="flex justify-between items-center mt-3">
+//                 <span className="font-bold text-[#7a2e1f]">₹{book.price}</span>
+//                 <button
+//                   onClick={() => addToCart(book)}
+//                   className="bg-[#7a2e1f] text-white px-3 py-1 rounded-md text-sm"
+//                 >
+//                   Add to Cart
+//                 </button>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </main>
+
+//       {/* FLOATING CART */}
+//       <button
+//         onClick={() => setShowCart(true)}
+//         className="fixed top-24 right-6 z-40 bg-[#7a2e1f] text-white p-4 rounded-full shadow-xl"
+//       >
+//         <ShoppingCart size={22} />
+//         {cart.length > 0 && (
+//           <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full">
+//             {cart.length}
+//           </span>
+//         )}
+//       </button>
+
+//       {/* CART DRAWER */}
+//       {showCart && (
+//         <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
+//           <div className="w-full max-w-md bg-white p-6 rounded-l-2xl">
+//             <div className="flex justify-between mb-4">
+//               <h2 className="text-xl font-bold">Your Cart</h2>
+//               <button onClick={() => setShowCart(false)}>✕</button>
+//             </div>
+
+//             {cart.length === 0 && (
+//               <p className="text-center text-gray-500">Cart is empty</p>
+//             )}
+
+//             {cart.map((item) => (
+//               <div
+//                 key={item._id}
+//                 className="flex gap-3 border rounded-lg p-3 mb-3"
+//               >
+//                 <img
+//                   src={item.image}
+//                   className="w-14 h-20 object-cover rounded"
+//                 />
+//                 <div className="flex-1">
+//                   <p className="font-semibold">{item.title}</p>
+//                   <p>₹{item.price}</p>
+//                 </div>
+//                 <button
+//                   onClick={() => removeFromCart(item._id)}
+//                   className="text-red-600 font-bold"
+//                 >
+//                   ✕
+//                 </button>
+//               </div>
+//             ))}
+
+//             {cart.length > 0 && (
+//               <button
+//                 onClick={handleCheckout}
+//                 className="w-full bg-[#7a2e1f] text-white py-3 rounded-lg mt-4"
+//               >
+//                 Proceed to Payment
+//               </button>
+//             )}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Books;
+
 import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -21,7 +313,6 @@ const Books = () => {
       .then((data) => {
         setBookss(data.books || []);
         setLoading(false);
-        // console.log(data);
       })
       .catch((err) => {
         console.error(err);
@@ -40,7 +331,16 @@ const Books = () => {
     return matchesSearch && matchesFilter;
   });
 
+  // ✅ LOGIN CHECK ADDED HERE
   const addToCart = (book) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login before adding to cart");
+      navigate("/login");
+      return;
+    }
+
     setCart((prev) =>
       prev.find((b) => b._id === book._id) ? prev : [...prev, book],
     );
@@ -51,7 +351,17 @@ const Books = () => {
   };
 
   console.log(cart);
+
+  // ✅ LOGIN CHECK ADDED HERE
   const handleCheckout = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login before checkout");
+      navigate("/login");
+      return;
+    }
+
     if (cart.length === 0) {
       alert("Cart is empty");
       return;
@@ -161,8 +471,7 @@ const Books = () => {
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 bg-[#fdf6ef]  p-6">
-        {/* SEARCH + FILTER */}
+      <main className="flex-1 bg-[#fdf6ef] p-6">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-3 text-gray-400" size={18} />
@@ -173,17 +482,6 @@ const Books = () => {
               placeholder="Search by book or author..."
             />
           </div>
-
-          {/* <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 rounded-xl bg-[#f6e4d5]"
-          >
-            <option value="All">All</option>
-            <option value="Novel">Novel</option>
-            <option value="Poetry">Poetry</option>
-            <option value="Story">Story</option>
-          </select> */}
         </div>
 
         <h3 className="font-bold text-lg mb-4">Best Popular</h3>
@@ -211,8 +509,10 @@ const Books = () => {
               <p className="text-sm text-gray-500">Author:{book.author}</p>
               <p className="text-xs text-gray-400">ISBM:{book.imei}</p>
               <p className="text-xs text-gray-400">About:{book.description}</p>
+
               <div className="flex justify-between items-center mt-3">
                 <span className="font-bold text-[#7a2e1f]">₹{book.price}</span>
+
                 <button
                   onClick={() => addToCart(book)}
                   className="bg-[#7a2e1f] text-white px-3 py-1 rounded-md text-sm"

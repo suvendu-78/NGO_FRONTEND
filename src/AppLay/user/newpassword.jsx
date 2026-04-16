@@ -30,13 +30,16 @@ const NewPass = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/v1/user/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://backend-ngo-gss9.onrender.com/api/v1/user/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp }),
         },
-        body: JSON.stringify({ email, otp }),
-      });
+      );
 
       const data = await res.json();
 
@@ -64,7 +67,7 @@ const NewPass = () => {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:5000/api/v1/user/reset-password",
+        "https://backend-ngo-gss9.onrender.com/api/v1/user/reset-password",
         {
           method: "POST",
           headers: {

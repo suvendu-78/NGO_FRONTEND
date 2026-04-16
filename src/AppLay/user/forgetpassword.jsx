@@ -139,13 +139,16 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:8000/api/v1/user/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://backend-ngo-gss9.onrender.com/api/v1/user/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
         },
-        body: JSON.stringify({ email }),
-      });
+      );
 
       const data = await res.json();
 
