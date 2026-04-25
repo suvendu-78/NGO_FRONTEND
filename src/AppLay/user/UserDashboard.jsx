@@ -19,44 +19,89 @@ const UserDashboard = () => {
   const [search, setSearch] = useState("");
 
   // ============================================
-  // LOAD USER DATA FROM LOCAL STORAGE
+  // LOAD USER DATA (LOCAL + BACKEND)
   // ============================================
   useEffect(() => {
     const storedEmail = localStorage.getItem("currentUserEmail");
     const token = localStorage.getItem("token");
 
-    // If user not logged in → redirect to login
     if (!storedEmail || !token) {
       navigate("/login");
       return;
     }
 
-    // Set user email
     setUserEmail(storedEmail);
 
-    // Load purchased books
-    const books =
+    // ================= LOCAL STORAGE =================
+    const localBooks =
       JSON.parse(localStorage.getItem(`myEbooks_${storedEmail}`)) || [];
-    setPurchasedBooks(books);
 
-    // Load purchase history
-    const orders =
+    const localOrders =
       JSON.parse(localStorage.getItem(`ebookOrders_${storedEmail}`)) || [];
-    setPurchases(orders);
+
+    setPurchasedBooks(localBooks);
+    setPurchases(localOrders);
+
+    // ================= BACKEND FETCH =================
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch(
+          "https://backend-ngo-gss9.onrender.com/api/v1/user/my-orders",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message);
+        }
+
+        // ===== Convert backend books =====
+        const backendBooks = data.orders.flatMap((order) =>
+          order.books.map((b) => ({
+            _id: b.book,
+            title: b.name,
+            price: b.price,
+            coverImage: b.image,
+            pdfUrl: b.pdfUrl,
+          }))
+        );
+
+        // ===== Merge (avoid duplicates) =====
+        setPurchasedBooks((prev) => {
+          const all = [...prev, ...backendBooks];
+          const unique = Array.from(
+            new Map(all.map((item) => [item._id, item])).values()
+          );
+          return unique;
+        });
+
+        // ===== Convert backend orders =====
+        const backendOrders = data.orders.flatMap((order) =>
+          order.books.map((b) => ({
+            title: b.name,
+            price: b.price,
+            orderDate: order.createdAt,
+          }))
+        );
+
+        setPurchases((prev) => [...prev, ...backendOrders]);
+
+      } catch (err) {
+        console.log("Backend fetch error:", err.message);
+      }
+    };
+
+    fetchOrders();
   }, [navigate]);
 
   // ============================================
   // LOGOUT FUNCTION
   // ============================================
-  // const handleLogout = () => {
-  //   localStorage.removeItem("currentUserEmail");
-  //   localStorage.removeItem("token");
-
-  //   setPurchasedBooks([]);
-  //   setPurchases([]);
-
-  //   navigate("/login");
-  // };
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("currentUserEmail");
@@ -85,14 +130,14 @@ const UserDashboard = () => {
 
   const totalSpent = purchases.reduce(
     (sum, item) => sum + Number(item.price || 0),
-    0,
+    0
   );
 
   // ============================================
   // SEARCH FILTER
   // ============================================
   const filteredBooks = purchasedBooks.filter((book) =>
-    book.title?.toLowerCase().includes(search.toLowerCase()),
+    book.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   // ============================================
@@ -146,7 +191,9 @@ const UserDashboard = () => {
         <button
           onClick={() => setActiveTab("library")}
           className={`px-4 py-2 rounded ${
-            activeTab === "library" ? "bg-blue-600 text-white" : "bg-gray-300"
+            activeTab === "library"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-300"
           }`}
         >
           Library
@@ -155,7 +202,9 @@ const UserDashboard = () => {
         <button
           onClick={() => setActiveTab("history")}
           className={`px-4 py-2 rounded ${
-            activeTab === "history" ? "bg-blue-600 text-white" : "bg-gray-300"
+            activeTab === "history"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-300"
           }`}
         >
           Purchase History
@@ -179,7 +228,12 @@ const UserDashboard = () => {
               filteredBooks.map((book) => (
                 <div key={book._id} className="bg-white shadow p-4 rounded">
                   <img
-                    src={book.coverImage || book.img || "/default-book.png"}
+                    src={
+                      book.coverImage ||
+                      book.image ||
+                      book.img ||
+                      "/default-book.png"
+                    }
                     alt="book"
                     className="h-40 w-full object-cover"
                   />
