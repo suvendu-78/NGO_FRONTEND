@@ -46,7 +46,7 @@ const UserDashboard = () => {
     const fetchOrders = async () => {
       try {
         const res = await fetch(
-          "https://backend-ngo-gss9.onrender.com/api/v1/user/my-orders",
+          "https://backend-ngo-green.vercel.app/api/v1/user/my-orders",
           {
             headers: {
               Authorization: `Bearer ${token}`,

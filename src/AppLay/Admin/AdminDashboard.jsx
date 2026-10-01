@@ -4,7 +4,7 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("https://backend-ngo-gss9.onrender.com/api/v1/user/admin/orders", {
+    fetch("https://backend-ngo-green.vercel.app/api/v1/user/admin/orders", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -14,7 +14,7 @@ const AdminOrders = () => {
   }, []);
 
   const updateStatus = async (orderId, status) => {
-    await fetch(`https://backend-ngo-gss9.onrender.com/api/admin/order/${orderId}`, {
+    await fetch(`https://backend-ngo-green.vercel.app/api/admin/order/${orderId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

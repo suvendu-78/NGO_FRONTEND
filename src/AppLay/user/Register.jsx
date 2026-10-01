@@ -36,7 +36,7 @@ const Register = () => {
       setLoading(true);
 
       const response = await fetch(
-        "https://backend-ngo-gss9.onrender.com/api/v1/user/register",
+        "https://backend-ngo-green.vercel.app/api/v1/user/register",
         {
           method: "POST",
           headers: {

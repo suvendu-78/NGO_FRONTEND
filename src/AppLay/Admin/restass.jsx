@@ -21,7 +21,7 @@ const AddNewPass = () => {
       setLoading(true);
 
       const res = await fetch(
-        "https://backend-ngo-gss9.onrender.com/api/v1/user/verify-otp",
+        "https://backend-ngo-green.vercel.app/api/v1/user/verify-otp",
         {
           method: "POST",
           headers: {
@@ -57,7 +57,7 @@ const AddNewPass = () => {
       setLoading(true);
 
       const res = await fetch(
-        "https://backend-ngo-gss9.onrender.com/api/v1/user/admin/reset-password",
+        "https://backend-ngo-green.vercel.app/api/v1/user/admin/reset-password",
         {
           method: "POST",
           headers: {

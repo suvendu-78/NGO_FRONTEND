@@ -94,7 +94,7 @@ const handlePayment = async () => {
 
     // 1️⃣ Create Razorpay order from backend
     const response = await fetch(
-      "https://backend-ngo-gss9.onrender.com/api/v1/user/payment/create-order",
+      "https://backend-ngo-green.vercel.app/api/v1/user/payment/create-order",
       {
         method: "POST",
         headers: {

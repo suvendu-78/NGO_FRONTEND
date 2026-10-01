@@ -60,7 +60,7 @@ const AdminLogin = () => {
 
     try {
       const res = await fetch(
-        "https://backend-ngo-gss9.onrender.com/api/v1/user/adminregister",
+        "https://backend-ngo-green.vercel.app/api/v1/user/adminregister",
         {
           method: "POST",
           headers: {

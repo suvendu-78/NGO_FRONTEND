@@ -14,7 +14,7 @@ const ForgotPassword = () => {
       setLoading(true);
 
       const res = await fetch(
-        "https://backend-ngo-gss9.onrender.com/api/v1/user/admin/forgot-password",
+        "https://backend-ngo-green.vercel.app/api/v1/user/admin/forgot-password",
         {
           method: "POST",
           headers: {
